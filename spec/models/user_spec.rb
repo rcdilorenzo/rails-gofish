@@ -14,4 +14,9 @@ describe User do
     its(:games) {should include game1}
     its(:name) {should == game1.players.first.name}
   end
+
+  it "should throw error for non-alpha name" do
+    lambda {FactoryGirl.create(:user, :name => "234kj6").save!}.should raise_error
+  end
+
 end
