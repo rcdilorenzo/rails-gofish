@@ -1,7 +1,4 @@
 require 'spec_helper'
-require 'go_fish_game'
-require 'go_fish_player'
-# require_relative '../../deckOfCards'
 
 describe GoFishGame do
   before do

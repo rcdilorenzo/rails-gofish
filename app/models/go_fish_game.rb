@@ -15,7 +15,6 @@ class GoFishGame
   attr_reader :players, :num_of_cards_per_book
   attr_accessor :deck_of_cards, :current_player
   def initialize(*player_names)
-    player_names = *player_names
     if player_names.first.class == Array
       player_names = player_names.first
     end
@@ -27,6 +26,9 @@ class GoFishGame
     end
     @deck_of_cards = GoFishDeckOfCards.new
     # write test for what setup does and include setting the current player
+  end
+
+  def save!
   end
 
   def setup(cards_to_deal=5)
