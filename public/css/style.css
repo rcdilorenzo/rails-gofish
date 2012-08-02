@@ -1,0 +1,48 @@
+html {
+  min-height:700px;
+}
+
+body {
+  background:url(../img/background.jpeg) repeat;
+}
+
+#board {
+  background-color:rgba(0,0,0,0.2);
+  border-radius: 10px;
+  height:300px;
+  width:400px;
+  margin:0 auto;
+  margin-top:50px;
+  padding:25px;
+}
+
+#player-left {
+  margin-top:-225px;
+  float:left;
+  height:100px;
+  width:250px;
+  text-align:center;
+}
+
+#player-right {
+  margin-top:275px;
+  float:right;
+  height:100px;
+  width:250px;
+  text-align:center;
+}
+
+#player-top {
+  margin:0 auto;
+  height:100px;
+  width:250px;
+  text-align:center;
+}
+
+#player-bottom {
+  margin:0 auto;
+  margin-top:50px;
+  height:150px;
+  width:550px;
+  text-align:center;
+}
