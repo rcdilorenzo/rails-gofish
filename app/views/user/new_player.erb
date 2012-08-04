@@ -1,0 +1,9 @@
+<div id="board">
+  <h1>Create. Play. Win.</h1>
+  <p><%= @user["name"][0].upcase + @user["name"][1..-1] %>, you don't have any stats. Once you play a game, your high score will show up on this page.</p>
+  <form name="start-game" action="/game/new" method="post">
+    <input type='hidden' name="name" value=<%=@user["name"][0].upcase + @user["name"][1..-1]%> />
+    <input class="btn btn-primary" type="submit" value="Create Game" />
+  </form>
+</div>
+

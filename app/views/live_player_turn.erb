@@ -1,0 +1,20 @@
+<%live_player = @game.players.first%>
+
+<div id="status" style="padding-bottom:5px;"><h2><%=live_player.name%>, it's your turn!<h2></div>
+<form name="ask-for-card-rank" action="/play" method="post">
+  <h3 style="float:left; margin-top:1px; padding-right:5px;">Player: </h3>
+  <select name="chosen_player" class="span2">
+    <% opponents = @game.players.reject {|player| player == live_player} %>
+    <% opponents.each do |opponent| %>
+      <%="<option value=\"#{opponent.name}\">#{opponent.name}</option>\n"%>
+    <% end %>
+  </select><br />
+  <h3 style="float:left; margin-top:1px; padding-right:5px;">Rank: </h3>
+  <select name="chosen_rank" class="span1">
+    <% live_player.cards.each do |card| %>
+      <%="<option value=\"#{card.rank}\">#{card.rank}</option>\n"%>
+    <% end %>
+  </select><br />
+  <%="<input type='hidden' name=\"key\" value=\"#{@game_id}\" />"%>
+  <input class="btn btn-primary" type="submit" value="Request Card(s)" />
+</form>

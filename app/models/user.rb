@@ -7,7 +7,4 @@ class User < ActiveRecord::Base
     :message => "Only letters allowed"
   }
 
-  def games
-    results.map(&:game)
-  end
 end
