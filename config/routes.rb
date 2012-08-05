@@ -7,7 +7,7 @@ GoFish::Application.routes.draw do
   match 'game/new' => 'game#new'
   match 'game/play' => 'game#play'
   match 'game/:id' => 'game#show', :as => :game
-  match 'endgame/:id' => 'game#end', :as => :game_end
+  match 'endgame/:id' => 'game#endgame', :as => :game_end
 
   # Keep in mind you can assign values other than :controller and :action
 

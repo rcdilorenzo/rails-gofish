@@ -1,7 +1,7 @@
 <%live_player = @game.players[0]%>
 <title>Go Fish Game - <%=live_player.name%></title>
 <% if !@turn %>
-  <meta http-equiv="refresh" content="3" />
+  <meta http-equiv="refresh" content="5" />
 <% end %>
 
 <div id="player-right">
@@ -19,12 +19,28 @@
   <h3><%="#{current_player.name} - Books: #{current_player.books.size}"%></h3>
   <div style="padding-left: 20px;">
     <%current_player.cards.each do%>
-      <img src="../img/backs_blue.png" style="float:left; width:30px; margin-left:-<%= 51/current_player.cards.size %>px;" />
+      <img src="../img/backs_blue.png" style="float:left; width:30px; margin-left:-<%= 51/current_player.cards.size/1.5 %>px;" />
     <%end%>
   </div>
 </div>
 
 <div id="board">
+  <% if @game.game_messages && (@game.game_messages_title != []) %>
+    <% if @game.game_messages.include? "Go fish!" %>
+      <% alert = "alert alert-error fade in" %>
+    <% else %>
+      <% alert = "alert alert-success fade in" %>
+    <% end %>
+    <div class="<%=alert%>">
+      <button type="button" class="close" data-dismiss="alert" href="#">×</button>
+      <h4 class="alert-heading"><%= @game.game_messages_title %></h4>
+      <p>
+        <% @game.game_messages.each do |message| %>
+          <%= message %><br />
+        <% end %>
+      </p>
+    </div>
+  <% end %>
   <%if @turn%>
     <%live_player = @game.players.first%>
 
@@ -62,7 +78,6 @@
 
 <div id="player-bottom">
   <h3><%="#{live_player.name} - Books: #{live_player.books.size}"%></h3>
-  <a class="btn btn-primary" data-toggle="modal" href="#myModal" style="margin-top:-80px; display:none;">Ask Player</a>
   <div style="padding-left: 40px;">
     <%live_player.cards.each do |card|%>
       <%if card.rank.class == Fixnum%>

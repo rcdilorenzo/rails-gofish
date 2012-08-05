@@ -1,0 +1,27 @@
+<div id="board">
+  <% if @game_result.winner.class == GoFishPlayer %>
+    <h3 style="float:left; margin-top:1px; padding-right:5px;"><%="#{@game_result.winner.name} wins with #{@game_result.winner.books.size} books!"%></h3>
+  <% else %>
+    <h3 style="float:left; margin-top:1px; padding-right:5px;"><%=@game_result.winner %></h3>
+  <% end %>
+  <br /><br /><br />
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @game_result.player_scores.each do |player_score| %>
+        <tr>
+          <th><%= @game_result.game.players[player_score.player_index].name %></th>
+          <th><%= player_score.score %></th>
+          </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <form action="/" method="get">
+    <input class="btn btn-primary" type="submit" value="New Game" />
+  </form>
+</div>

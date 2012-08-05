@@ -15,7 +15,12 @@ class GoFishPlayer
 	end
 
   def take_turn
+    @game.game_messages_title = "#{self.name} asks #{@decision.first.name} for any #{@decision.last}\'s!"
     cards_returned = ask_player_for_cards(@decision.first, @decision.last) unless @game.end?
+    cards_returned.each do |card|
+      @game.game_messages << "#{@decision.first.name} gives #{self.name} a #{card.rank} of #{card.suit}" unless card.rank == "Ace"
+      @game.game_messages << "#{@decision.first.name} gives #{self.name} an #{card.rank} of #{card.suit}" if card.rank == "Ace"
+    end
     cards.each {|a_card| check_for_books_using_card(a_card.rank)}
     cards.sort! {|a, b| a.value <=> b.value}
     if cards_returned != []
@@ -63,6 +68,7 @@ class GoFishPlayer
     cards_requested = player.give_cards_of_rank(card_rank)
     if (cards_requested == [])
       go_fish
+      @game.game_messages << "Go fish!" unless self == @game.players.first # REMOVE IF MULTIPLAYER!!!
     else
       cards_requested.each {|card_requested| cards << card_requested}
     end
@@ -82,6 +88,7 @@ class GoFishPlayer
   def check_for_books_using_card(received_card)
     if (cards.count { |card| card.rank == received_card} == 4)
       cards_of_same_rank = cards.select {|card| card.rank == received_card}
+      @game.game_messages << "New Book!"
       books << cards_of_same_rank
       cards_of_same_rank.each {|card_of_same_rank| cards.delete(card_of_same_rank)}
     end
