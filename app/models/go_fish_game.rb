@@ -47,7 +47,11 @@ class GoFishGame
     @players.each {|player| score_of_all_players << player.books.size}
     winner = @players[score_of_all_players.index(score_of_all_players.max)]
     return winner if (score_of_all_players.count{|p| p == score_of_all_players.max} == 1)
-    return winner = "TIE"
+
+    if (score_of_all_players.count{|p| p == score_of_all_players.max} > 1)
+      winner = @players.select { |player| player.books.size == score_of_all_players.max }
+    end
+    return winner
   end
 
   private

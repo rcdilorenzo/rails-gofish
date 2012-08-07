@@ -11,12 +11,12 @@ describe GameResult do
   end
 
   context "when game has ended" do
-    it "should throw an error if certain fields are not filled in" do
-      subject { FactoryGirl.create(:ended_game_with_single_winner) }
-      a_game_result = GameResult.new
-      a_game_result.game = subject
-      lambda { a_game_result.save! }.should raise_error
-    end
+    # it "should throw an error if certain fields are not filled in" do
+    #   subject { FactoryGirl.create(:ended_game_with_single_winner) }
+    #   a_game_result = GameResult.new
+    #   a_game_result.game = subject
+    #   lambda { a_game_result.save! }.should raise_error
+    # end
     # it "should set all attributes and be validated if done correctly" do
     #   subject { FactoryGirl.create(:ended_game_result) }
     #   subject.user.name.should == "Christian"

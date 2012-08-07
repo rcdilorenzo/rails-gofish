@@ -1,0 +1,12 @@
+<title>Go Fish - Create a Game</title>
+<center><h1 style="font-size:50px; padding-top:200px;">Create Go Fish Game</h1>
+<%# <form name="input" action="player/new" method="post"> %>
+<%= form_for(User.new) do |f| %>
+  <%= f.label :name, "Name: ", :style => "font-size: 15pt; padding-top: 35px; display: inline-block; margin-right: 5px; position: relative; font-weight:bold;" %>
+  <%= f.text_field :name, :style => "height:25px; margin-top:8px;", :maxLength => "11" %>
+  <%= f.submit "Start", :class => "btn" %>
+  <%# <input style="height:25px; margin-top:8px;" type="text" maxLength="11" name="name" /> %>
+  <%# <input class="btn" type="submit" value="Start" /> %>
+<% end %>
+<%# </form> %>
+</center>

@@ -1,0 +1,33 @@
+<div id="board">
+  <% if @new_player %>
+    <h1>Create. Play. Win.</h1>
+    <p>
+      <%= @user["name"][0].upcase + @user["name"][1..-1] %>, you don't have any stats. Once you play a game, your high score will show up on this page.
+    </p>
+  <% elsif !@new_player %>
+    <h1>Welcome back, <%= @user["name"][0].upcase + @user["name"][1..-1] %></h3>
+    <br />
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Wins</th>
+          <th>Losses</th>
+          <th>Ties</th>
+          <th>Games</th>
+        </tr>
+      </thead>
+      <tbody>
+        <th><%= @user["name"] %></th>
+        <th><%= @wins %></th>
+        <th><%= @losses %></th>
+        <th><%= @ties %></th>
+        <th><%= @games_played %></th>
+      </tbody>
+    </table>
+  <% end %>
+  <form name="start-game" action="/games" method="post">
+    <input type='hidden' name="id" value=<%=@user.id%> />
+    <input class="btn btn-primary" type="submit" value="Create Game" />
+  </form>
+</div>

@@ -91,7 +91,7 @@ describe GoFishGame do
         complete_game.winner.books.size.should == calculated_winner_index(complete_game)
         # puts "#{complete_game.winner.name} wins with #{complete_game.winner.books.size} books!"
       else
-        complete_game.winner.should == "TIE"
+        complete_game.winner.count.should > 1
         # puts complete_game.winner
       end
     end

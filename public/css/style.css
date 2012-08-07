@@ -9,7 +9,7 @@ body {
 #board {
   background-color:rgba(0,0,0,0.2);
   border-radius: 10px;
-  height:300px;
+  min-height:300px;
   width:400px;
   margin:0 auto;
   margin-top:50px;
