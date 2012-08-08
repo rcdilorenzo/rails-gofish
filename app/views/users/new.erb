@@ -1,12 +1,77 @@
 <title>Go Fish - Create a Game</title>
-<center><h1 style="font-size:50px; padding-top:200px;">Create Go Fish Game</h1>
-<%# <form name="input" action="player/new" method="post"> %>
-<%= form_for(User.new) do |f| %>
-  <%= f.label :name, "Name: ", :style => "font-size: 15pt; padding-top: 35px; display: inline-block; margin-right: 5px; position: relative; font-weight:bold;" %>
-  <%= f.text_field :name, :style => "height:25px; margin-top:8px;", :maxLength => "11" %>
-  <%= f.submit "Start", :class => "btn" %>
-  <%# <input style="height:25px; margin-top:8px;" type="text" maxLength="11" name="name" /> %>
-  <%# <input class="btn" type="submit" value="Start" /> %>
+
+<% content_for :javascript do %>
+  <script type="text/javascript">
+    function checkPasswords() {
+      if (document.getElementById('form_password_confirm').value.length != document.getElementById('form_password').value.length) {
+        $('#new-user h1').after('<div class="alert alert-error fade in"><button type="button" class="close" data-dismiss="alert" href="#">×</button><h4 class="alert-heading">Passwords do not match</h4></div>');
+      }
+    }
+  </script>
 <% end %>
-<%# </form> %>
-</center>
+
+<div style="float:left; padding:6%; background-color:rgba(0,0,0,0.2); margin-top:200px; border-radius: 10px;">
+  <h1 style="font-size:50px; padding-bottom: 35px; ">Sign In</h1>
+  <% if flash.alert =~ /login.+|invalid.+[user|password]/i %>
+    <div class="alert alert-error fade in" style="max-width:280px; min-width:260px;">
+      <button type="button" class="close" data-dismiss="alert" href="#">×</button>
+      <h4 class="alert-heading"><%= flash.alert %></h4>
+    </div>
+  <% end %>
+<%= form_for(User.new) do |f| %>
+  <%= f.text_field :first_name, :style => "height:25px; width:250px; margin-top:8px;", :maxLength => "20", :placeholder => "User Name" %><br />
+  <%= password_field :form, :password, :style => "height:25px; width:250px;", :placeholder => "Password" %><br />
+
+  <%= f.submit "Sign In", :class => "btn" %>
+<% end %>
+</div>
+
+<div id="new-user"><h1>New User</h1>
+   <% if flash.alert =~ /fields.+required/i %>
+    <div class="alert alert-error fade in">
+      <button type="button" class="close" data-dismiss="alert" href="#">×</button>
+      <h4 class="alert-heading"><%= flash.alert %></h4>
+    </div>
+  <% end %>
+<%= form_for(@user) do |f| %>
+  <h2>User Information</h2>
+
+  <h3 style="margin-right: 25px;">First Name: </h3>
+  <%= f.text_field :first_name, :style => "height:22px;" %><br />
+
+  <h3 style="margin-right: 25px;">Last Name: </h3>
+  <%= f.text_field :last_name, :style => "height:22px;" %><br />
+
+  <h3 style="margin-right: 33px;">Password: </h3>
+  <%= password_field :form, :password, :style => "height:22px; width:180px;" %><br />
+  <%# <%= f.text_field :password, :style => "height:22px;", :placeholder => "Doe" %1><br /> %>
+
+  <h3 style="margin-right: 46px;">Confirm: </h3>
+  <%= password_field :form, :password_confirm, :onchange => "checkPasswords()", :style => "height:22px; width:180px;" %><br />
+
+  <h3 style="margin-right: 63px;">Email: </h3>
+  <%= f.text_field :email, :style => "height:22px; width:180px;" %><br />
+
+  <h3 style="margin-right: 5px;">Screen Name: </h3>
+  <%= f.text_field :screen_name, :style => "height:22px; width:121px", :maxLength => "20" %>
+
+  <h2>Address</h2>
+
+  <%=fields_for(@user.addresses.first) do |a| %>
+    <h3 style="margin-right: 5px;">Street: </h3>
+    <%= a.text_field :street, :style => "height:22px; width:265px;" %><br />
+
+    <h3 style="margin-right: 19px;">City: </h3>
+    <%= a.text_field :city, :style => "height:22px; width:180px;" %><br />
+
+    <h3 style="margin-right: 10px;">State: </h3>
+    <%= a.text_field :state, :style => "height:22px; width:50px;" %><br />
+    
+    <h3 style="margin-right: 25px;">Zip: </h3>
+    <%= a.text_field :zip, :style => "height:22px; width:90px;", :maxLength => 5 %><br />
+  <% end %>
+  
+  <br />
+  <%= f.submit "Create User", :class => "btn" %>
+<% end %>
+</div>

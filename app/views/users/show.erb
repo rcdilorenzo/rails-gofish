@@ -1,11 +1,11 @@
 <div id="board">
-  <% if @new_player %>
+  <% if @games_played < 1 %>
     <h1>Create. Play. Win.</h1>
     <p>
-      <%= @user["name"][0].upcase + @user["name"][1..-1] %>, you don't have any stats. Once you play a game, your high score will show up on this page.
+    <%= @user["first_name"] %>, you don't have any stats. Once you play a game, your high score will show up on this page.
     </p>
-  <% elsif !@new_player %>
-    <h1>Welcome back, <%= @user["name"][0].upcase + @user["name"][1..-1] %></h3>
+  <% else %>
+    <h1>Welcome back,  <%= @user["first_name"] %></h3>
     <br />
     <table class="table">
       <thead>
@@ -18,7 +18,7 @@
         </tr>
       </thead>
       <tbody>
-        <th><%= @user["name"] %></th>
+        <th><%= @user["screen_name"] %></th>
         <th><%= @wins %></th>
         <th><%= @losses %></th>
         <th><%= @ties %></th>

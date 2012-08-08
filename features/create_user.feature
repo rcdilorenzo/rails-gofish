@@ -1,7 +1,7 @@
 Feature: Creating a User
 
   Scenario: Create existing user with name
-      When I create an existing user with the name "Christian"
+      When I identify an existing user with the first name "John"
       Then I should see the user page for "Christian" with statistics
 
   Scenario: Create new user with name

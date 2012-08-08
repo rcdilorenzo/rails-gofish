@@ -3,6 +3,7 @@ GoFish::Application.routes.draw do
   # first created -> highest priority.
 
   resources :users, :except => [:edit, :update, :index]
+  resources :user, :has_many => [:addresses]
   resources :games, :except => [:edit, :index]
   # match 'game/new' => 'game#new'
   match 'games/play' => 'game#play'

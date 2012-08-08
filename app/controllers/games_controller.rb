@@ -6,7 +6,7 @@ class GamesController < ApplicationController
   def create
     @user = User.find(params[:id])
     
-    user_result = @user.results.build(:game => GoFishGame.new(@user.name, "Rack", "Shack", "Benny"))
+    user_result = @user.results.build(:game => GoFishGame.new(@user.screen_name, "Rack", "Shack", "Benny"))
     user_result.game.setup
     user_result.game.current_player = user_result.game.players.first # live player will always be the first one
     @user.save!

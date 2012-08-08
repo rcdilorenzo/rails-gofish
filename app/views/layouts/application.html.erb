@@ -19,8 +19,10 @@
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
-    <!-- Le fav and touch icons -->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
+    
+    <%= yield :javascript %>
   </head>
 
   <body>
@@ -38,7 +40,7 @@
       </div>
     </div>
 
-    <div class="container">
+    <div style="padding-bottom:100px;" class="container">
       <%= yield %>
     </div> <!-- /container -->
 
@@ -49,7 +51,7 @@
     <%# <script src="../js/bootstrap-transition.js"></script> %>
     <script src="../js/bootstrap-alert.js"></script>
     <%# <script src="../js/bootstrap-modal.js"></script> %>
-    <%# <script src="../js/bootstrap-dropdown.js"></script> %>
+    <%# <script src="../js/boot'trap-dropdown.js"></script> %>
     <%# <script src="../js/bootstrap-scrollspy.js"></script> %>
     <%# <script src="../js/bootstrap-tab.js"></script> %>
     <%# <script src="../js/bootstrap-tooltip.js"></script> %>

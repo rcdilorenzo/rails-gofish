@@ -22,7 +22,7 @@ end
 gem 'jquery-rails'
 
 # To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
+gem 'bcrypt-ruby', '~> 3.0.0'
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
@@ -43,6 +43,7 @@ end
 
 group :test do
   gem 'cucumber-rails', :require => false
+  # gem 'capybara-webkit', :path => "Users/christiandilorenzo/workspaces/rails-gofish/vendor/bundle/gems/capybara-webkit-0.12.1/"
   gem 'database_cleaner'
   gem 'rspec-rails-mocha'
 end

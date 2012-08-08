@@ -11,7 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120804185006) do
+ActiveRecord::Schema.define(:version => 20120808152315) do
+
+  create_table "addresses", :force => true do |t|
+    t.string   "street"
+    t.string   "city"
+    t.string   "state"
+    t.string   "country"
+    t.integer  "zip"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "user_id"
+  end
 
   create_table "game_results", :force => true do |t|
     t.string   "player_scores"
@@ -32,9 +43,13 @@ ActiveRecord::Schema.define(:version => 20120804185006) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "first_name"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.string   "email"
+    t.string   "screen_name"
+    t.string   "last_name"
+    t.string   "password_hash"
   end
 
 end
