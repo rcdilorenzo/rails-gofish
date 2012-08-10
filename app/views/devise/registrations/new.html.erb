@@ -5,7 +5,7 @@
       <h4 class="alert-heading"><%= flash.alert %></h4>
     </div><br />
   <% end %>
-  <%= form_for(@user) do |f| %> 
+  <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %> 
     <%# resource, :as => resource_name, :url => registration_path(resource_name) %>
     <% if devise_error_messages!.size != 0 %>
       <br />
@@ -35,7 +35,7 @@
     <%= f.text_field :screen_name, :style => "height:22px; width:121px;", :maxLength => "20" %>
     
     <h3>Address</h3>
-    <%=fields_for(@user.addresses.first) do |a| %>
+    <%= f.fields_for(:address, resource.address) do |a| %>
       <h4 style="margin-right: 5px;">Street: </h4>
       <%= a.text_field :street, :style => "height:22px; width:265px;" %><br />
 

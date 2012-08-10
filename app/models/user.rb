@@ -6,11 +6,11 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :password, :password_confirmation, :remember_me, :first_name, :last_name, :email, :screen_name
+  attr_accessible :password, :password_confirmation, :remember_me, :first_name, :last_name, :email, :screen_name, :address_attributes
 
   has_many :results, :class_name => 'GameResult'
-  has_many :addresses, :class_name => 'Address'
-  # accepts_nested_attributes_for :addresses
+  has_one :address, :class_name => 'Address'
+  accepts_nested_attributes_for :address
 
   validates :screen_name, :presence => true
   validates :first_name, :presence => true, :format => {

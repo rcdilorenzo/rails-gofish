@@ -1,9 +1,4 @@
 class UsersController < ApplicationController
-  def new
-    @user = User.new
-    @user.addresses << Address.new
-  end
-
   before_filter :authenticate_user!, :except => :new
 
   def show

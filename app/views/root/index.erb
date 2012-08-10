@@ -2,19 +2,18 @@
   <script>
     var progress = setInterval(function() {
       var $bar = $('.bar');
-      $('#go-fish-image').hide();
       
-      if ($bar.width()>=380) {
+      if ($bar.width()>=390) {
           clearInterval(progress);
           $('.progress').removeClass('active');
-          $('.progress').hide('fast');
-          $('#go-fish-image').show('fast');
+          $('.progress').hide();
+          $('#go-fish-image').show('slow');
 
       } else {
-          $bar.width($bar.width()+80);
+          $bar.width($bar.width()+90);
       }
         $bar.text(Math.round($bar.width()/4) + "%");
-    }, 8);
+    }, 60);
   </script>
 <% end %>
 
@@ -23,5 +22,5 @@
   <div class="bar" style="width: 0px;"></div>
 </div>
 
-<center><%= image_tag("go_fish_welcome.png", :style => "width:50%; max-width:2000px; margin-top:10%;", :id => "go-fish-image")%></center>
+<center><%= image_tag("go_fish_welcome.png", :style => "width:50%; max-width:2000px; margin-top:10%; display:none;", :id => "go-fish-image")%></center>
 

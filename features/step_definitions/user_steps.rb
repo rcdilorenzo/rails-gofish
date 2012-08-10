@@ -78,7 +78,8 @@ Then /^I should be able to start a game$/ do
 end
 
 When /^I sign out$/ do
-  click_on 'Sign out'  
+  puts page.body
+  click_on 'Sign out'
 end
 
 Then /^I should see a signed out message$/ do
