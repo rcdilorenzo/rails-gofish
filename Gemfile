@@ -43,4 +43,5 @@ end
 
 group :production do
   gem 'ps'
+  gem 'pg'
 end
