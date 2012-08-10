@@ -29,7 +29,6 @@ GEM
       i18n (~> 0.6)
       multi_json (~> 1.0)
     addressable (2.3.2)
-    ansi (1.4.3)
     arel (3.0.2)
     bcrypt-ruby (3.0.1)
     builder (3.0.0)
@@ -109,8 +108,6 @@ GEM
     nokogiri (1.5.5)
     orm_adapter (0.4.0)
     polyglot (0.3.3)
-    ps (0.0.8)
-      ansi
     rack (1.4.1)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -154,7 +151,6 @@ GEM
     rspec-rails-mocha (0.3.2)
       mocha (>= 0.9.8)
       rspec-rails (>= 2.0.0)
-    rubygems-bundler (1.0.5)
     rubyzip (0.9.9)
     sass (3.1.20)
     sass-rails (3.2.5)
@@ -189,7 +185,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bundler
   coffee-rails (~> 3.2.1)
   cucumber-rails
   database_cleaner
@@ -197,11 +192,9 @@ DEPENDENCIES
   factory_girl_rails
   heroku
   jquery-rails
-  ps
   rails (= 3.2.6)
   rspec-rails
   rspec-rails-mocha
-  rubygems-bundler
   sass-rails (~> 3.2.3)
   sqlite3
   uglifier (>= 1.0.3)
