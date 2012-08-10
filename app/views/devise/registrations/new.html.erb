@@ -35,7 +35,7 @@
     <%= f.text_field :screen_name, :style => "height:22px; width:121px;", :maxLength => "20" %>
     
     <h3>Address</h3>
-    <%=fields_for(:address) do |a| %>
+    <%=fields_for(@user.addresses.first) do |a| %>
       <h4 style="margin-right: 5px;">Street: </h4>
       <%= a.text_field :street, :style => "height:22px; width:265px;" %><br />
 

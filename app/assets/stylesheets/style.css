@@ -45,6 +45,14 @@ form h4 {
   padding:25px;
 }
 
+#board-nav ul li a:hover {
+  background-image:rgba(0,0,0,0.2);
+}
+
+#board-nav ul li.active a {
+  background-image:rgba(0,0,0,0.2);
+}
+
 #player-left {
   margin-top:-225px;
   float:left;

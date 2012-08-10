@@ -1,33 +1,76 @@
-<div id="board">
-  <% if @games_played < 1 %>
-    <h1>Create. Play. Win.</h1>
-    <p>
-    <%= @user["first_name"] %>, you don't have any stats. Once you play a game, your high score will show up on this page.
-    </p>
-  <% else %>
-    <h1>Welcome back,  <%= @user["first_name"] %></h3>
-    <br />
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Wins</th>
-          <th>Losses</th>
-          <th>Ties</th>
-          <th>Games</th>
-        </tr>
-      </thead>
-      <tbody>
-        <th><%= @user["screen_name"] %></th>
-        <th><%= @wins %></th>
-        <th><%= @losses %></th>
-        <th><%= @ties %></th>
-        <th><%= @games_played %></th>
-      </tbody>
-    </table>
-  <% end %>
-  <%= form_tag games_path do %>
-    <%= hidden_field_tag :id, @user.id %>
-    <%= submit_tag "Create Game", :class => "btn btn-primary" %>
-  <% end %>
+<% content_for :javascript do %>
+  <script>
+    .activity();
+    $(document).ready(function() {
+      $('#innerNav a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+      })
+    });
+  </script>
+<% end %>
+
+<div id="board" style="min-width:700px;">
+  <div id="board-nav">
+
+    <ul class="nav nav-tabs" id="innerNav">
+      <li class="active">
+        <a href="#user" data-toggle="tab"><span class="icon-user"></span> <%= current_user.screen_name[0].upcase + current_user.screen_name[1..-1] %></a>
+      </li>
+      <li><a href="#games" data-toggle="tab"><span class="icon-list-alt"></span> Games</a></li>
+      <li><a href="#profile" data-toggle="tab"><span class="icon-edit"></span> Profile</a></li>
+      <li><a href="#account" data-toggle="tab"><span class="icon-cog"></span> Account</a></li>
+    </ul>
+
+  </div>
+
+
+  <div class="tab-content">
+    <div class="tab-pane fade in active" id="user">
+      <% if @games_played < 1 %>
+        <h1>Create. Play. Win.</h1>
+        <p>
+        <%= @user["first_name"] %>, you don't have any stats. Once you play a game, your high score will show up on this page.
+        </p>
+      <% else %>
+        <h1>Welcome back,  <%= @user["first_name"] %></h3>
+        <br />
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Wins</th>
+              <th>Losses</th>
+              <th>Ties</th>
+              <th>Games</th>
+            </tr>
+          </thead>
+          <tbody>
+            <th><%= @user["screen_name"] %></th>
+            <th><%= @wins %></th>
+            <th><%= @losses %></th>
+            <th><%= @ties %></th>
+            <th><%= @games_played %></th>
+          </tbody>
+        </table>
+      <% end %>
+    </div>
+    <div class="tab-pane fade" id="games">
+      <%= form_tag games_path do %>
+        <%= hidden_field_tag :id, @user.id %>
+        <%= submit_tag "Create Game", :class => "btn btn-primary" %>
+      <% end %>
+    </div>
+    <div class="tab-pane fade" id="profile">
+      <p>
+      <h3><%= current_user.first_name + " " + current_user.last_name %></h3>
+      <h3><%= current_user.email %></h3><br/>
+        <%= debug current_user %>  
+        <%# <%= current_user.addresses.first.street %1> %>
+      </p>
+    </div>
+    <div class="tab-pane fade" id="account"></div>
+
+  </div>
+
 </div>

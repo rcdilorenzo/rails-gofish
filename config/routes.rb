@@ -9,7 +9,7 @@ GoFish::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
-  resources :users, :except => [:edit, :update, :index]
+  resources :users, :only => [:show, :create]
 
   match 'games/play' => 'games#play', :as => :play
   resources :games, :except => [:edit, :index]
@@ -59,7 +59,7 @@ GoFish::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'users#new'
+  root :to => 'root#index'
 
   # See how all your routes lay out with "rake routes"
 

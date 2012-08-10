@@ -1,0 +1,27 @@
+<% content_for :javascript do %>
+  <script>
+    var progress = setInterval(function() {
+      var $bar = $('.bar');
+      $('#go-fish-image').hide();
+      
+      if ($bar.width()>=380) {
+          clearInterval(progress);
+          $('.progress').removeClass('active');
+          $('.progress').hide('fast');
+          $('#go-fish-image').show('fast');
+
+      } else {
+          $bar.width($bar.width()+80);
+      }
+        $bar.text(Math.round($bar.width()/4) + "%");
+    }, 8);
+  </script>
+<% end %>
+
+<title>Play Go Fish</title>
+<div class="progress progress-striped active" style="width:400px; margin:0 auto; margin-top:10%;">
+  <div class="bar" style="width: 0px;"></div>
+</div>
+
+<center><%= image_tag("go_fish_welcome.png", :style => "width:50%; max-width:2000px; margin-top:10%;", :id => "go-fish-image")%></center>
+
