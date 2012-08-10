@@ -1,14 +1,19 @@
 GoFish::Application.routes.draw do
+  devise_for :users, :controllers => {:registrations => 'registrations'}
+  
+  devise_scope :user do
+    put '/users/sign_in' => 'devise/sessions#create'
+    post '/users/sign_out' => 'devise/sessions#destroy'
+    get '/users/sign_out' => 'devise/sessions#destroy'
+  end
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
   resources :users, :except => [:edit, :update, :index]
-  resources :user, :has_many => [:addresses]
+
+  match 'games/play' => 'games#play', :as => :play
   resources :games, :except => [:edit, :index]
-  # match 'game/new' => 'game#new'
-  match 'games/play' => 'game#play'
-  # match 'game/:id' => 'game#show', :as => :game
-  match 'endgame/:id' => 'game#endgame', :as => :game_end
+  match 'endgame/:id' => 'games#endgame', :as => :game_end
 
   # Keep in mind you can assign values other than :controller and :action
 

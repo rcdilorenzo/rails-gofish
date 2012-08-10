@@ -1,8 +1,12 @@
-require 'bcrypt'
-
 class User < ActiveRecord::Base
-  include BCrypt
-  attr_accessible :first_name, :last_name, :email, :screen_name, :password_hash
+  # Include default devise modules. Others available are:
+  # :token_authenticatable, :confirmable,
+  # :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable
+
+  # Setup accessible (or protected) attributes for your model
+  attr_accessible :password, :password_confirmation, :remember_me, :first_name, :last_name, :email, :screen_name
 
   has_many :results, :class_name => 'GameResult'
   has_many :addresses, :class_name => 'Address'
@@ -18,19 +22,7 @@ class User < ActiveRecord::Base
   }
   validates :email, :presence => true
   validates :screen_name, :presence => true
-  validates :password_hash, :presence => true
-
-  after_save :determine_stats
-
-  def password
-    # http://bcrypt-ruby.rubyforge.org
-    @password ||= Password.new(password_hash)
-  end
-
-  def password=(new_password)
-    @password = Password.create(new_password)
-    self.password_hash = @password
-  end
+  # validates :password_hash, :presence => true
 
   def wins
     determine_stats[:wins]

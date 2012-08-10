@@ -1,8 +1,8 @@
-FactoryGirl.duplicate_attribute_assignment_from_initialize_with = false
+# FactoryGirl.duplicate_attribute_assignment_from_initialize_with = false
 
 FactoryGirl.define do
   factory :game, :class => GoFishGame do
-    initialize_with { new("Christian", "Bob") }
+    initialize_with { new("John", "Jane") }
   end
 
   factory :ended_game_with_single_winner, :parent => :game do
@@ -12,4 +12,3 @@ FactoryGirl.define do
     end
   end
 end
-

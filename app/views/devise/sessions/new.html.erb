@@ -1,0 +1,14 @@
+<div id="board" style="width:275px;"><h1>Sign in</h1>
+  <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+    <br /><div><%= f.email_field :email, :placeholder => "Email", :style => "height:25px;" %></div>
+
+    <div><%= f.password_field :password, :placeholder => "Password", :style => "height:25px;"  %></div>
+
+    <% if devise_mapping.rememberable? -%>
+      <div><%= f.check_box :remember_me, :style => "float:left; margin-right:5px;" %> <%= f.label :remember_me %></div>
+    <% end -%>
+    <br />
+    <div><%= f.submit "Sign in", :class => "btn" %></div>
+  <% end %>
+  <%= render "devise/shared/links" %>
+</div>

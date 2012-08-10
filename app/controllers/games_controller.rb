@@ -1,4 +1,6 @@
 class GamesController < ApplicationController
+  before_filter :authenticate_user!
+
   def new
     redirect_to game_url(:id => params[:id])
   end

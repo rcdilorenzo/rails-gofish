@@ -26,8 +26,8 @@
       </tbody>
     </table>
   <% end %>
-  <form name="start-game" action="/games" method="post">
-    <input type='hidden' name="id" value=<%=@user.id%> />
-    <input class="btn btn-primary" type="submit" value="Create Game" />
-  </form>
+  <%= form_tag games_path do %>
+    <%= hidden_field_tag :id, @user.id %>
+    <%= submit_tag "Create Game", :class => "btn btn-primary" %>
+  <% end %>
 </div>

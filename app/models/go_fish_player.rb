@@ -88,7 +88,7 @@ class GoFishPlayer
   def check_for_books_using_card(received_card)
     if (cards.count { |card| card.rank == received_card} == 4)
       cards_of_same_rank = cards.select {|card| card.rank == received_card}
-      @game.game_messages << "New Book!"
+      @game.game_messages << "#{self.name}: New Book!"
       books << cards_of_same_rank
       cards_of_same_rank.each {|card_of_same_rank| cards.delete(card_of_same_rank)}
     end

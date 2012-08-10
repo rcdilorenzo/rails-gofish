@@ -4,29 +4,7 @@ class UsersController < ApplicationController
     @user.addresses << Address.new
   end
 
-  def create
-    if params[:commit] == "Sign In"
-
-      @user = User.find_by_first_name(params[:user][:first_name])
-      if !@user
-        flash.alert = "Invalid username and/or password." if params[:commit] == "Sign In"
-        redirect_to('/') and return
-      end
-    elsif params[:commit] == "Create User"
-      @user = User.new(params[:user])
-      @user.password = params[:form][:password]
-      @user.addresses.build(params[:address])
-      @user.save
-      if !@user.update_attributes(params[:user])
-        flash.alert = "All fields are required." if params[:commit] == "Create User"
-        redirect_to('/') and return
-      end
-    end
-    redirect_to user_url(:id => @user.id) 
-  end
-
-  def index
-  end
+  before_filter :authenticate_user!, :except => :new
 
   def show
     @user = User.find(params[:id])

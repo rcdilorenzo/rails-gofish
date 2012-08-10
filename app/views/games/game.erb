@@ -1,7 +1,19 @@
 <%live_player = @game.players[0]%>
+
+<% content_for :javascript do %>
+  <script>
+    $(document).ready(function() {
+      $('.alert').bind('closed', function () {
+        // do something…
+        location.reload();
+      })
+    });
+  </script>
+<% end %>  
+
 <title>Go Fish Game - <%=live_player.name%></title>
 <% if !@turn %>
-  <meta http-equiv="refresh" content="5" />
+  <meta http-equiv="refresh" content="6" />
 <% end %>
 
 <div id="player-right">
@@ -45,23 +57,18 @@
     <%live_player = @game.players.first%>
 
     <div id="status" style="padding-bottom:5px;"><h2><%=live_player.name%>, it's your turn!<h2></div>
-    <form name="ask-for-card-rank" action="/games/play" method="post">
+    <%= form_tag play_path do %>
       <h3 style="float:left; margin-top:1px; padding-right:5px;">Player: </h3>
-      <select name="chosen_player" class="span2">
-        <% opponents = @game.players.reject {|player| player == live_player} %>
-        <% opponents.each do |opponent| %>
-          <option value="<%= opponent.name %>"><%= opponent.name %></option>
-        <% end %>
-      </select><br />
-      <h3 style="float:left; margin-top:1px; padding-right:5px;">Rank: </h3>
-      <select name="chosen_rank" class="span1">
-        <% live_player.cards.each do |card| %>
-          <option value="<%= card.rank %>"><%= card.rank %></option>
-        <% end %>
-      </select><br />
-      <input type='hidden' name="key" value="<%= @game_result.id %>" />
-      <input class="btn btn-primary" type="submit" value="Request Card(s)" />
-    </form>
+      <% opponents = @game.players.reject {|player| player == live_player} %>
+      <%= select_tag "chosen_player", options_from_collection_for_select(opponents, :name, :name), :class => "span2"%><br />
+
+      <h3 style="float:left; margin-top:1px; padding-right:13px;">Rank: </h3>
+      <%= select_tag "chosen_rank", options_from_collection_for_select(live_player.cards, :rank, :rank), :class => "span2"%><br />
+
+      <%= hidden_field_tag :key, @game_result.id %>
+
+      <%= submit_tag "Request Card(s)", :class => "btn btn-primary" %>
+    <% end %>
   <% end %>
   <h3 style="float:left; margin-top:1px; padding-right:5px;">Deck Of Cards: <%=@game.deck_of_cards.cards.size%> card(s) remaining</h3>
 </div>

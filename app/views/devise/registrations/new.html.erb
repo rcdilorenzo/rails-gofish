@@ -1,0 +1,57 @@
+<div id="new-user"><h1 style="padding-botom:35px;">Sign Up</h1>
+  <% if flash.alert =~ /fields.+required/i %>
+    <div class="alert alert-error fade in">
+      <button type="button" class="close" data-dismiss="alert" href="#">×</button>
+      <h4 class="alert-heading"><%= flash.alert %></h4>
+    </div><br />
+  <% end %>
+  <%= form_for(@user) do |f| %> 
+    <%# resource, :as => resource_name, :url => registration_path(resource_name) %>
+    <% if devise_error_messages!.size != 0 %>
+      <br />
+      <div class="alert alert-error fade in">
+        <button type="button" class="close" data-dismiss="alert" href="#">×</button>
+        <%= devise_error_messages! %>
+      </div><br />
+    <% end %>
+    <h3>User Information</h3>
+
+    <h4 style="margin-right: 25px;">First Name: </h4>
+    <%= f.text_field :first_name, :style => "height:22px;" %>
+
+    <h4 style="margin-right: 25px;">Last Name: </h4>
+    <%= f.text_field :last_name, :style => "height:22px;" %>
+
+    <h4 style="margin-right: 30px;">Password: </h4>
+    <%= f.password_field :password, :style => "height:22px; width:180px;" %>
+
+    <h4 style="margin-right: 44px;">Confirm: </h4>
+    <%= f.password_field :password_confirmation, :style => "height:22px; width:180px;" %>
+
+    <h4 style="margin-right: 62px;">Email: </h4>
+    <%= f.text_field :email, :style => "height:22px; width:180px;" %>
+
+    <h4 style="margin-right: 7px;">Screen Name: </h4>
+    <%= f.text_field :screen_name, :style => "height:22px; width:121px;", :maxLength => "20" %>
+    
+    <h3>Address</h3>
+    <%=fields_for(:address) do |a| %>
+      <h4 style="margin-right: 5px;">Street: </h4>
+      <%= a.text_field :street, :style => "height:22px; width:265px;" %><br />
+
+      <h4 style="margin-right: 19px;">City: </h4>
+      <%= a.text_field :city, :style => "height:22px; width:180px;" %><br />
+
+      <h4 style="margin-right: 10px;">State: </h4>
+      <%= a.text_field :state, :style => "height:22px; width:50px;" %><br />
+      
+      <h4 style="margin-right: 25px;">Zip: </h4>
+      <%= a.text_field :zip, :style => "height:22px; width:90px;", :maxLength => 5 %><br />
+    <% end %>
+    
+    <br />
+    <%= f.submit "Create User", :class => "btn" %>
+  <% end %>
+  <%= render "devise/shared/links" %>
+</div>
+

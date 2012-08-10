@@ -5,7 +5,7 @@ FactoryGirl.define do
     user
 
     after(:build) do |result|
-      result.game = GoFishGame.new(result.user.name, "Bob") # FactoryGirl.build(:game)
+      result.game = GoFishGame.new(result.user.first_name, "Jane") # FactoryGirl.build(:game)
     end
   end  
 end
