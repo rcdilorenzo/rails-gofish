@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.6'
-gem 'sqlite3'
 gem 'jquery-rails'
 gem 'devise'
 
@@ -30,6 +29,7 @@ end
 # gem 'debugger'
 
 group :development, :test do
+  gem 'sqlite3'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
 end
@@ -38,4 +38,8 @@ group :test do
   gem 'cucumber-rails', :require => false
   gem 'database_cleaner'
   gem 'rspec-rails-mocha'
+end
+
+group :production do
+  gem 'ps'
 end
