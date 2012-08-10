@@ -1,12 +1,9 @@
 source 'https://rubygems.org'
 
-ruby '1.9.3'
 gem 'heroku'
 gem 'rails', '3.2.6'
 gem 'jquery-rails'
 gem 'devise'
-gem 'bundler'
-gem 'rubygems-bundler'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -42,8 +39,4 @@ group :test do
   gem 'cucumber-rails', :require => false
   gem 'database_cleaner'
   gem 'rspec-rails-mocha'
-end
-
-group :production do
-  gem 'ps'
 end
