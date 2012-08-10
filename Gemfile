@@ -40,3 +40,7 @@ group :test do
   gem 'database_cleaner'
   gem 'rspec-rails-mocha'
 end
+
+group :production do
+  gem 'ps'
+end
