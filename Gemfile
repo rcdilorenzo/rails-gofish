@@ -30,6 +30,7 @@ end
 # gem 'debugger'
 
 group :development, :test do
+  gem 'jasmine'
   gem 'sqlite3'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
@@ -39,7 +40,6 @@ group :test do
   gem 'cucumber-rails', :require => false
   gem 'database_cleaner'
   gem 'rspec-rails-mocha'
-  gem 'jasmine'
 end
 
 group :production do
