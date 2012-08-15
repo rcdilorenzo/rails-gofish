@@ -3,5 +3,5 @@ PlayingCard = function PlayingCard(rank, suit) {
 	this._suit = suit;
 }
 
-PlayingCard.prototype.rank = function() {return this._rank};
-PlayingCard.prototype.suit = function() {return this._suit};
+PlayingCard.prototype.rank = function() {return this._rank; };
+PlayingCard.prototype.suit = function() {return this._suit; };

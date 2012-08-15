@@ -9,7 +9,6 @@ gem 'devise'
 # in production environments by default.
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier', '>= 1.0.3'
 end
 
@@ -31,6 +30,8 @@ end
 
 group :development, :test do
   gem 'jasmine'
+  gem 'coffee-rails', '~> 3.2.1'
+  gem 'rack-asset-compiler'
   gem 'sqlite3'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
