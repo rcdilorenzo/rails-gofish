@@ -9,5 +9,5 @@ window.DeckOfCards = class DeckOfCards
   numberOfCards: -> @cards.length
   draw: ->
     randomIndex = Math.floor(Math.random()*this.cards.length)
-    @cards.splice(randomIndex, 1)[0]
+    return @cards.splice(randomIndex, 1)[0]
   hasCards: -> @cards.length > 0

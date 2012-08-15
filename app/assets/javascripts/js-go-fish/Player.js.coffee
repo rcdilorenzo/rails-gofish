@@ -4,6 +4,7 @@ window.Player = class Player
     @game = game
     @cards = []
     @books = []
+    @decision = {}
   
   name: -> @name
   
@@ -11,15 +12,6 @@ window.Player = class Player
   
   addCard: (card) -> @cards.push card
 
-  askPlayerForRank: (player, rank) ->
-    cardsRequested = player.giveCardsOfRank(rank)
-    if cardsRequested.length > 0
-      for card in cardsRequested
-        @cards.push(card)
-      return cardsRequested
-    else
-      return this.goFish()
-  
   giveCardsOfRank: (requestedRank) ->
     cardsOfRequestedRank = []
     for card in @cards
@@ -29,8 +21,17 @@ window.Player = class Player
       @cards.splice(@cards.indexOf(card), 1)
     return cardsOfRequestedRank
   
+  askPlayerForRank: (player, rank) ->
+    cardsRequested = player.giveCardsOfRank(rank)
+    if cardsRequested.length > 0
+      for card in cardsRequested
+        @cards.push(card)
+      return cardsRequested
+    else
+      return this.goFish()
+  
   goFish: ->
-    @cards.push(@game.deck().draw())
+    @cards.push(@game.deck.draw())
   
   countOfCardsWithRank: (rank) ->
     count = 0
@@ -47,3 +48,11 @@ window.Player = class Player
     for card in cardsForBook
       @cards.remove(card)
     @books = @books.concat(cardsForBook)
+
+  takeTurn: ->
+    returnedCards = this.askPlayerForRank(@decision.player, @decision.rank)
+    this.checkForBooks()
+    @cards.sort = (a, b) ->
+      a.rank - b.rank
+    @game.currentPlayer = this if returnedCards.length != 0
+    @game.currentPlayer = @decision.player if returnedCards.length == 0

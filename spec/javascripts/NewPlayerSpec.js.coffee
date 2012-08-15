@@ -18,11 +18,6 @@ describe "Player", ->
 
   describe "askPlayerForRank", ->
     it "should be able to ask another player for a card", ->
-      # @player.addCard(new PlayingCard(3, "Spades"))
-      console.log(@player.askPlayerForRank(@otherPlayer, 3));
-      # expect(@player.askPlayerForRank(@otherPlayer, 3).not.toBe(null))
-
-    it "should give the requested cards", ->
       @player.cards = [new PlayingCard(3, "Spades"),
                         new PlayingCard(5, "Diamonds"),
                         new PlayingCard(8, "Clubs")]
