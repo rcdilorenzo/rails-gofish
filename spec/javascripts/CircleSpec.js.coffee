@@ -7,4 +7,4 @@ describe "Circle", ->
     expect(@circle.radius).toBe(20)
     expect(@circle.x).toBe(100)
     expect(@circle.y).toBe(50)
-    expect(@circle.properties).toBe({fillStyle: 'red'})
+    expect(@circle.properties['fillStyle']).toBe('red')
