@@ -3,4 +3,9 @@ class RootController < ApplicationController
   def index
     render :graphics
   end
+
+  def drawing
+    puts params
+    render :text => ''
+  end
 end

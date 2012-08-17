@@ -11,11 +11,7 @@ window.Drawable = class Drawable
       context[name] = value
 
   _draw: (context) ->
-    context.beginPath()
-    context.arc(@x,@y,@radius,0,Math.PI*2,true)
-    context.closePath()
     context.fill()
-    context.stroke()
 
   _restoreProperties: (context) ->
     context.restore()

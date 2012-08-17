@@ -1,7 +1,5 @@
 window.Player = class Player
-  constructor: (name, game) ->
-    @name = name
-    @game = game
+  constructor: (@name, @game) ->
     @cards = []
     @books = []
     @decision = {}

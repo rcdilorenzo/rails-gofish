@@ -8,85 +8,93 @@ $ ->
 
 window.Drawing = class Drawing extends Drawable
   constructor: (@canvas) ->
-    @properties =
-      lineWidth: 2
-      strokeStyle: '#D4D4D4'
-      fillStyle: 'green'
-    circle1 = new Circle(100, 100, 50, {fillStyle: 'red'})
-    circle2 = new Circle(500, 500, 50)
-    @rect1 = new RoundedRectangle(300, 300, 140, 200, 10)
-    # @figures = [circle1, circle2]
+    @game = new GoFishGame("Christian", "John", "Jay", "Ken")
+    @hands = []
+    @setupGame()
+    context = @canvas.getContext('2d')
+    dealButton = new RoundedRectangle(430, 300, 100, 50, 10, {lineWidth: 0})
+    
+    @drawElements = [dealButton]
     @initializeMouseObservers() if @canvas
+
+  setupGame: ->
+    @game.deal()
+    player = @game.players[0]
+    player.visualHand = new Hand(player.name, player.hand(), 330, 600, yes)
+
+    player = @game.players[1]
+    player.visualHand = new Hand(player.name, player.hand(), 50, 250, no, 'vertical')
+    
+    player = @game.players[2]
+    player.visualHand = new Hand(player.name, player.hand(), 330, 50, no)
+    
+    player = @game.players[3]
+    player.visualHand = new Hand(player.name, player.hand(), 779, 250, no, 'vertical')
+    
+    player = null
+    @hands.push(player.visualHand) for player in @game.players
+
 
   paint: (context = @canvas.getContext('2d')) ->
     @draw(context)
 
   _draw: (context) ->
-    # for figure in @figures
-    #   figure.draw(context)
-    # if !cardImage
-    #   cardImage = new Image()
-    #   cardImage.src = "./assets/c3.png"
-    #   cardImage.onload = ->
-    #     context.drawImage(cardImage, 100, 100, 64.8, 86.4)
-    context.fillRect(600,100,200,100)
-    context.fillStyle = 'black'
-    context.font = "14pt Georgia"
-    context.fillText("Drop here!", 650, 155)
-    @rect1.draw(context)
+    for hand in @hands
+      hand.draw(context)
+    buttonGradient = context.createLinearGradient(430, 300, 430, 350)
+    buttonGradient.addColorStop(0,"#79BBFF")
+    buttonGradient.addColorStop(1,"#378DE5")
+    context.fillStyle = buttonGradient
+    @drawElements[0].drawWithText(context, "Deal!") if @drawElements[0]
 
-  mouseMove: (point) ->
-    if @selectedFigure and @canvas
-      @selectedFigure.x = point.x() - @mouseOffsetX
-      @selectedFigure.y = point.y() - @mouseOffsetY
-      context = @canvas.getContext('2d')
-      context.clearRect(0, 0, $(@canvas).width(), $(@canvas).height())
-      @draw(context)
-      if point.x() > 600 and point.x() < 800 and point.y() > 100 and point.y() < 200 and @selectedFigure
-        console.log("it's at least valid")
-        context.fillStyle = '#00DB00'
-        context.fillRect(600,100,200,100)
-        context.fillStyle = 'black'
-        context.font = "14pt Georgia"
-        context.fillText("Drop here!", 650, 155)
-        @rect1.draw(context)
+  toJSON: ->
+    {drawing: "Implement this feature..."}
 
+  # mouseMove: (point)
   mouseDown: (point) ->
-    @selectedFigure = @rect1 if (@rect1.contains(point))
-    @mouseOffsetX = point.x() - @selectedFigure.x
-    @mouseOffsetY = point.y() - @selectedFigure.y
+    # @drawElements[0].contains(point)
 
   mouseUp: (point) ->
-    if point.x() > 600 and point.x() < 800 and point.y() > 100 and point.y() < 200 and @selectedFigure
-      @selectedFigure = null
+    if @drawElements[0].contains(point)
       context = @canvas.getContext('2d')
-      console.log("Dropped!")
       context.clearRect(0, 0, $(@canvas).width(), $(@canvas).height())
-      context.fillStyle = 'grey'
-      context.fillRect(600,100,200,100)
+      @drawElements[0] = null
+      @draw(context)
 
-      context.fillStyle = 'black'
-      context.font = "bold 12px sans-serif"
-      context.fillText("Dropped a #{@rect1.width} X #{@rect1.height} box!", 610, 120)
-      @rect1.width = null
-      @rect1.height = null
-    @selectedFigure = null
+  save: ->
+    postURL = $(@canvas).data('save')
+    $.post(postURL, @toJSON())
+
 
   initializeMouseObservers: ->
     $(@canvas).on("mousedown", @mousedown_event.bind(this))
-    $(@canvas).on("mousemove", @mousemove_event.bind(this))
     $(@canvas).on("mouseup", @mouseup_event.bind(this))
+    # $(@canvas).on("mousemove", @mousemove_event.bind(this))
 
-  mousedown_event: (event) ->
-    @mouseDown(@mousePosition(event))
-
-  mousemove_event: (event) ->
-    @mouseMove(@mousePosition(event))
-
-  mouseup_event: (event) ->
-    @mouseUp(@mousePosition(event))
+  mousedown_event: (event) -> @mouseDown(@mousePosition(event))
+  # mousemove_event: (event) -> @mouseMove(@mousePosition(event))
+  mouseup_event: (event) -> @mouseUp(@mousePosition(event))
 
   mousePosition: (event) ->
     offset = $(@canvas).offset()
     new Point(event.clientX-offset.left, event.clientY-offset.top)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
