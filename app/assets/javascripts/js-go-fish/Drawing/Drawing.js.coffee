@@ -55,7 +55,7 @@ window.Drawing = class Drawing extends Drawable
     # @drawElements[0].contains(point)
 
   mouseUp: (point) ->
-    if @drawElements[0].contains(point)
+    if @drawElements[0] and @drawElements[0].contains(point)
       context = @canvas.getContext('2d')
       context.clearRect(0, 0, $(@canvas).width(), $(@canvas).height())
       @drawElements[0] = null

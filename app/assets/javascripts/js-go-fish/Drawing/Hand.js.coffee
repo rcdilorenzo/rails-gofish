@@ -22,8 +22,7 @@ window.Hand = class Hand extends Drawable
   drawName: (context) ->
     context.fillStyle = 'black'
     context.font = "14pt American Typewriter"
-    context.fillText(@name, @x+20, @y+30) if @orientation == 'horizontal'
-    context.fillText(@name, @x+20, @y+30) if @orientation == 'vertical'
+    context.fillText(@name, @x+20, @y+30)
 
   drawBackground: (context) ->
     if @orientation == 'horizontal'
