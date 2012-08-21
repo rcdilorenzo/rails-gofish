@@ -1,10 +1,7 @@
 describe "Hand", ->
   beforeEach ->
-    cards = [new PlayingCard(4, "Spades"),
-                        new PlayingCard(5, "Hearts"),
-                        new PlayingCard(4, "Diamonds"),
-                        new PlayingCard(4, "Clubs")], yes)
-    @hand = new Hand("Christian", cards, 330, 600, yes)
+    cards = [new PlayingCard(4, "Spades"), new PlayingCard(5, "Hearts"), new PlayingCard(4, "Diamonds"), new PlayingCard(4, "Clubs")]
+    @hand = new LivePlayerHand("Christian", cards, 330, 600)
   it "contains a certain point", ->
     expect(@hand.contains(new Point(400, 630))).toBe(true)
     

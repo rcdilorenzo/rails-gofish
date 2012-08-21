@@ -28,7 +28,6 @@ window.GoFishGame = class GoFishGame
         winner = []
         for player in @players
           if player.books.length == scoreOfAllPlayers.maximumValue()
-            console.log(player.name + ": " + player.books.length + " books")
             winner.push(player)
       return winner
     else

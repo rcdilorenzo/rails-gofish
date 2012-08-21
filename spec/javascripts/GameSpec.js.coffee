@@ -13,7 +13,6 @@ describe "GoFishGame", ->
       player: @game.players[1],
       rank: firstPlayer.cards[0].rank()
     }
-    console.log(firstPlayer.decision)
     firstPlayer.takeTurn()
     expect(firstPlayer.hand().length).toBe(6)
 
@@ -54,5 +53,4 @@ describe "GoFishGame", ->
       @game.players[1].books = [[null, null, null, null], [null, null, null, null]]
       @game.players[2].books = []
       @game.deck.cards = [] # Ends the game
-      console.log(@game.winner().length)
       expect(@game.winner()).toEqual([@game.players[0], @game.players[1]])

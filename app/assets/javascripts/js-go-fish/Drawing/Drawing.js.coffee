@@ -5,41 +5,45 @@ $ ->
   if canvas
     drawing = new Drawing(canvas)
     drawing.paint()
+    $(".navbar").css("position", "absolute")
 
 window.Drawing = class Drawing extends Drawable
   constructor: (@canvas) ->
     @game = new GoFishGame("Christian", "John", "Jay", "Ken")
     @hands = []
+    @dropTargets = []
     @setupGame()
     context = @canvas.getContext('2d')
     @dealButton = new RoundedRectangle(430, 300, 100, 50, 10, {lineWidth: 0})
     
     @initializeMouseObservers() if @canvas
     @selectedCard = null
-    @dropTargets = []
 
 
   # ------- Model ---------
   setupGame: ->
     @game.deal()
+    player = @game.players[0]
+    player.visualHand = new LivePlayerHand(player.name, player.hand(), 330, 600)
+
     player = @game.players[1]
     player.visualHand = new Hand(player.name, player.hand(), 50, 250, 'vertical')
-    @hands.push(player.visualHand)
     
     player = @game.players[2]
     player.visualHand = new Hand(player.name, player.hand(), 330, 50)
-    @hands.push(player.visualHand)
     
     player = @game.players[3]
     player.visualHand = new Hand(player.name, player.hand(), 779, 250, 'vertical')
-    @hands.push(player.visualHand)
-    
-    player = @game.players[0]
-    player.visualHand = new LivePlayerHand(player.name, player.hand(), 330, 600)
-    @hands.push(player.visualHand)
+
+    @hands.push(player.visualHand) for player in @game.players
+    @dropTargets.push(player) for player in @game.players when player isnt @game.players[0]
 
   toJSON: ->
     {drawing: "Implement this feature..."}
+
+  save: ->
+    postURL = $(@canvas).data('save')
+    $.post(postURL, @toJSON())
 
 
   # ------- Drawing ---------
@@ -47,8 +51,8 @@ window.Drawing = class Drawing extends Drawable
     @draw(context)
 
   _draw: (context) ->
-    for hand in @hands
-      hand.draw(context)
+    hand.draw(context) for hand in @hands when hand isnt @hands[0]
+    @hands[0].draw(context)
     buttonGradient = context.createLinearGradient(430, 300, 430, 350)
     buttonGradient.addColorStop(0,"#79BBFF")
     buttonGradient.addColorStop(1,"#378DE5")
@@ -75,6 +79,9 @@ window.Drawing = class Drawing extends Drawable
     context = @canvas.getContext('2d')
     context.clearRect(0, 0, $(@canvas).width(), $(@canvas).height())
     @draw(context)
+    for target in @dropTargets
+      if target.visualHand.contains(point) and @selectedCard
+        console.log("#{@selectedCard.getAttribute("data-rank")}\'s requested of #{target.name}")
     if @selectedCard
       @revertToOldPosition(@selectedCard)
       @selectedCard = null
@@ -96,10 +103,8 @@ window.Drawing = class Drawing extends Drawable
       @game.players[0].visualHand.creationPoints[@selectedCard.src] = new Point(point.x() - @mouseOffsetX, point.y() - @mouseOffsetY)
       @draw(context)
 
-  save: ->
-    postURL = $(@canvas).data('save')
-    $.post(postURL, @toJSON())
 
+  # ------- Mouse Initializers ---------
   initializeMouseObservers: ->
     $(@canvas).on("mousedown", @mousedown_event.bind(this))
     $(@canvas).on("mouseup", @mouseup_event.bind(this))

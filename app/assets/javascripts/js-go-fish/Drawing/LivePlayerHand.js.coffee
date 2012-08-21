@@ -4,7 +4,8 @@ window.LivePlayerHand = class LivePlayerHand extends Hand
   constructor: (@name, @cards, @x, @y) ->
     @cardImages = []
     for card in @cards
-      @cardImages.push(@getImage(card))
+      # check for undefined for testing only
+      @cardImages.push(@getImage(card)) unless @getImage(card) == undefined
 
     @creationPoints = {}
     creationPoint = new Point(@x+20, @y+50)

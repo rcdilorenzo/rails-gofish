@@ -14,8 +14,14 @@ window.Hand = class Hand extends Drawable
       creationPoint = creationPoint.offsetByX(40) if @orientation == 'horizontal'
       creationPoint = creationPoint.offsetByY(40) if @orientation == 'vertical'
 
+  contains: (point) ->
+    if !@background
+      @createBackground()
+    @background.contains(point)
+
   _draw: (context) ->
     # [@x, @y] = [0, 0] if !@x and !@y
+    @createBackground()
     @drawBackground(context)
     @drawName(context)
     @refreshImages(context)
@@ -30,19 +36,22 @@ window.Hand = class Hand extends Drawable
     context.font = "14pt American Typewriter"
     context.fillText(@name, @x+20, @y+30)
 
-  drawBackground: (context) ->
+  createBackground: ->
     if @orientation == 'horizontal'
       @width = (@cards.length*40)+31+40
       @height = 166
     else
       @height = (@cards.length*40)+56+55
       @width = 111
+    @background = new RoundedRectangle(@x, @y, @width, @height, 10)
+    return @background
+
+  drawBackground: (context) ->
     gradient = context.createLinearGradient(@x, @y, @width, @height)
     gradient.addColorStop(0,"#D4D4D4")
     gradient.addColorStop(1,"#E3E3E3")
-    background = new RoundedRectangle(@x, @y, @width, @height, 10, {fillStyle: gradient})
     context.fillStyle = gradient
-    background.draw(context)
+    @background.draw(context)
     
   refreshImages: (context) ->
     for cardImage in @cardImages
