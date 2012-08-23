@@ -7,13 +7,14 @@ window.Message = class Message
     @parameters.delay = 1 unless @parameters.delay
     @parameters.speed = 5 unless @parameters.speed
     @parameters.font = "American Typewriter" unless @parameters.font
+    @parameters.fontWeight = "" unless @parameters.fontWeight
 
   draw: (canvas, context, point, @parameters={}) ->
     @createDefaultParameters()
     if canvas
       # Draw Inital Text and Wait for 100-(delay*1000) millseconds before fading
       context.clearRect(point.x(), point.y()-16, 300, 20)
-      context.font = "bold 16pt #{@parameters.font}"
+      context.font = "#{@parameters.fontWeight} 16pt #{@parameters.font}"
       console.log(@parameters)
       context.fillStyle = "rgba(#{@parameters.color[0]}, #{@parameters.color[1]}, #{@parameters.color[2]}, 1.0)"
       if typeof @text == "string"
@@ -34,7 +35,7 @@ window.Message = class Message
     alpha = 1.0
 
     fadeInterval = setInterval( =>
-      context.font = "bold 16pt #{@parameters.font}"
+      context.font = "#{@parameters.fontWeight} 16pt #{@parameters.font}"
       if typeof @text == "string"
         context.clearRect(point.x(), point.y()-16, 300, 20)
         context.fillStyle = "rgba(#{@parameters.color[0]}, #{@parameters.color[1]}, #{@parameters.color[2]}, #{alpha})"

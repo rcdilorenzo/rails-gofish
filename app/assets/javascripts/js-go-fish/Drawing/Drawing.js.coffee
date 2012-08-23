@@ -49,9 +49,9 @@ window.Drawing = class Drawing extends Drawable
   # ------- Drawing ---------
   paint: (context = @canvas.getContext('2d')) ->
     myMessage = new Message(["Hello, this is awesome.", "This is another line."])
-    myMessage.draw(@canvas, context, new Point(400, 400), {delay: 1.5, color: [0, 0, 0]})
+    myMessage.draw(@canvas, context, new Point(400, 400), {delay: 1.5, color: [0, 0, 0], fontWeight: "bold"})
     myMessage = new Message("3rd Line")
-    myMessage.draw(@canvas, context, new Point(400, 440), {speed: 1, color: [255, 255, 255]})
+    myMessage.draw(@canvas, context, new Point(400, 440), {speed: 1, color: [255, 255, 255], fontWeight: "bold"})
     @draw(context)
 
   _draw: (context) ->
