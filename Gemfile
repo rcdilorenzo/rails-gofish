@@ -30,7 +30,7 @@ end
 # gem 'debugger'
 
 group :development, :test do
-  gem 'jasmine'
+  gem 'jasmine', '= 1.2.0'
   gem 'coffee-rails', '~> 3.2.1'
   gem 'rack-asset-compiler'
   gem 'sqlite3'

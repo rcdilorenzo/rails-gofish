@@ -6,6 +6,7 @@ window.GoFishGame = class GoFishGame
     for name in playerNames
       @players.push(new Player(name, this))
     @currentPlayer
+    @gameMessages = []
 
   deal: ->
     player.addCard(@deck.draw()) for player in @players for count in [1..5]

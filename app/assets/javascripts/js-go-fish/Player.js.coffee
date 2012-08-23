@@ -29,6 +29,7 @@ window.Player = class Player
       return this.goFish()
   
   goFish: ->
+    @game.gameMessages.push("Go fish!")
     @cards.push(@game.deck.draw())
   
   countOfCardsWithRank: (rank) ->
@@ -48,7 +49,11 @@ window.Player = class Player
     @books = @books.concat(cardsForBook)
 
   takeTurn: ->
+    @game.gameMessages.push("#{@name} asks #{@decision.player} for any #{@decision.rank}\s!")
     returnedCards = this.askPlayerForRank(@decision.player, @decision.rank)
+    for card in returnedCards
+      @game.gameMessages.push("#{@decision.player.name} returns a #{card.rank()} of #{card.suit()}") unless card.rank() == 'Ace'
+      @game.gameMessages.push("#{@decision.player.name} returns an #{card.rank()} of #{card.suit()}") if card.rank() == 'Ace'
     this.checkForBooks()
     @cards.sort = (a, b) ->
       a.rank - b.rank
