@@ -22,8 +22,38 @@ Array::select = (requestedElement) ->
   else
     return null
 
+Array::arrayFromProperty = (propertyString) ->
+  array = []
+  for element in this
+    array.push(element[propertyString])
+  return array
+
+Array::arrayFromFunction = (propertyString) ->
+  array = []
+  for element in this
+    array.push(element[propertyString]())
+  return array
+
 Array::maximumValue = ->
   Math.max.apply(0, this)
+
+Array::maximumCardValue = ->
+  array = []
+  for element in this
+    if element == "Jack"
+      element = 11
+    else if element == "Queen"
+      element = 12
+    else if element == "King"
+      element = 13
+    else if element == "Ace"
+      element = 14
+    array.push(element)
+  index = array.indexOf(Math.max.apply(0, array))
+  return this[index]
+
+String::contains = (string) ->
+  this.indexOf(string) > -1
 
 unless CanvasRenderingContext2D::extended
   CanvasRenderingContext2D::extended = true

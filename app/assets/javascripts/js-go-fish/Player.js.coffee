@@ -7,6 +7,8 @@ window.Player = class Player
   name: -> @name
   
   hand: -> @cards
+
+  score: -> @books.length/4
   
   addCard: (card) -> @cards.push card
 
@@ -26,7 +28,8 @@ window.Player = class Player
         @cards.push(card)
       return cardsRequested
     else
-      return this.goFish()
+      this.goFish()
+      return []
   
   goFish: ->
     @game.gameMessages.push("Go fish!")
@@ -44,12 +47,14 @@ window.Player = class Player
     for card in @cards
       if this.countOfCardsWithRank(card.rank()) == 4
         cardsForBook.push card
+    @game.gameMessages.push("New Book!") if cardsForBook.length > 0
     for card in cardsForBook
       @cards.remove(card)
     @books = @books.concat(cardsForBook)
 
   takeTurn: ->
-    @game.gameMessages.push("#{@name} asks #{@decision.player} for any #{@decision.rank}\s!")
+    @game.gameMessages.push("\n")
+    @game.gameMessages.push("#{@name} asks #{@decision.player.name} for any #{@decision.rank}\'s!")
     returnedCards = this.askPlayerForRank(@decision.player, @decision.rank)
     for card in returnedCards
       @game.gameMessages.push("#{@decision.player.name} returns a #{card.rank()} of #{card.suit()}") unless card.rank() == 'Ace'

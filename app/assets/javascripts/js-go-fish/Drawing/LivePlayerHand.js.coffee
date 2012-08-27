@@ -1,31 +1,42 @@
 ##= require ./Hand
 
 window.LivePlayerHand = class LivePlayerHand extends Hand
-  constructor: (@name, @cards, @x, @y) ->
-    @cardImages = []
-    for card in @cards
-      # check for undefined for testing only
-      @cardImages.push(@getImage(card)) unless @getImage(card) == undefined
-
+  generateCreationPointsArray: ->
     @creationPoints = {}
     creationPoint = new Point(@x+20, @y+50)
     for cardImage in @cardImages
       @creationPoints[cardImage.src] = creationPoint
       creationPoint = creationPoint.offsetByX(40)
 
+  _draw: (context) ->
+    @x = @originalX + (5-@cardImages.length)*20
+    @drawBackground(context)
+    @drawName(context)
+    @refreshImages(context)
+
   drawBackground: (context) ->
-    @width = (@cards.length*40)+31+40
+    @width = (@player.cards.length*40)+31+40
     @height = 166
 
-    gradient = context.createLinearGradient(@x, @y, @width, @height)
-    gradient.addColorStop(0,"#D4D4D4")
-    gradient.addColorStop(1,"#E3E3E3")
+    if @isSelected
+      gradient = context.createLinearGradient(@x, @y, @x+@width, @y+@height)
+      gradient.addColorStop(0,"#F8FFC8")
+      gradient.addColorStop(1,"#D4DAAB")
+    else
+      gradient = context.createLinearGradient(@x, @y, @width, @height)
+      gradient.addColorStop(0,"#D4D4D4")
+      gradient.addColorStop(1,"#E3E3E3")
     
     background = new RoundedRectangle(@x, @y, @width, @height, 10, {fillStyle: gradient})
     context.fillStyle = gradient
     background.draw(context)
 
   refreshImages: (context) ->
+    if @player.cards.length != @cardImages.length
+      @generateCardImagesArray()
+      @generateCreationPointsArray()
+    else
+      @generateCardImagesArray()
     for cardImage in @cardImages
       @displayImage(context, cardImage, @creationPoints[cardImage.src])
 

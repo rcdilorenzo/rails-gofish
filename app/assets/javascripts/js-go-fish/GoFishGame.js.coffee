@@ -23,12 +23,12 @@ window.GoFishGame = class GoFishGame
     if @isEnded()
       scoreOfAllPlayers = []
       for player in @players
-        scoreOfAllPlayers.push(player.books.length)
+        scoreOfAllPlayers.push(player.score())
       winner = @players[scoreOfAllPlayers.indexOf(scoreOfAllPlayers.maximumValue())]
       if scoreOfAllPlayers.count(scoreOfAllPlayers.maximumValue()) > 1
         winner = []
         for player in @players
-          if player.books.length == scoreOfAllPlayers.maximumValue()
+          if player.score() == scoreOfAllPlayers.maximumValue()
             winner.push(player)
       return winner
     else

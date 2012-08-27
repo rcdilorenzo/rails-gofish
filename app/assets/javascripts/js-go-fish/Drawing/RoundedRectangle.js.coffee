@@ -1,12 +1,17 @@
 ##= require ./Drawable
 
 window.RoundedRectangle = class RoundedRectangle extends Drawable
-  constructor: (@x, @y, @width, @height, @radius, @parameters={}) ->
+  constructor: (@x, @y, @width, @height, @radius) ->
   drawWithText: (context, @text, @textX, @textY) ->
     @draw(context)
+    @drawText(context)
+
+  drawWithMessage: (context, offsetPoint, messageText, parameters={}) ->
+    myMessage = new Message(messageText)
+    @draw(context)
+    myMessage.draw(context, new Point(@x + offsetPoint.x(), @y + offsetPoint.y()), parameters)
 
   _draw: (context) ->
-    # context.fillStyle = "#D4D4D4" if context.fillStyle == "#0000ff"
     context.beginPath()
     context.moveTo(@x + @radius, @y)
     context.arcTo(@x + @width, @y, @x + @width, @y + @height, @radius)
@@ -15,7 +20,6 @@ window.RoundedRectangle = class RoundedRectangle extends Drawable
     context.arcTo(@x, @y, @x + @width, @y, @radius)
     context.closePath()
     context.fill()
-    @drawText(context) if @text
 
   drawText: (context) ->
     context.fillStyle = 'black'

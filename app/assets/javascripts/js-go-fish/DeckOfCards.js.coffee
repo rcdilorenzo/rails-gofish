@@ -6,8 +6,13 @@ window.DeckOfCards = class DeckOfCards
     for rank in ranks
       for suit in suits
         @cards.push(new PlayingCard(rank, suit))
-  numberOfCards: -> @cards.length
+  numberOfCards: -> @cards.length if @cards
   draw: ->
-    randomIndex = Math.floor(Math.random()*this.cards.length)
-    return @cards.splice(randomIndex, 1)[0]
-  hasCards: -> @cards.length > 0
+    if @cards
+      randomIndex = Math.floor(Math.random()*this.cards.length)
+      return @cards.splice(randomIndex, 1)[0]
+    else
+      return null
+  hasCards: ->
+    return @cards.length > 0 if @cards
+    false

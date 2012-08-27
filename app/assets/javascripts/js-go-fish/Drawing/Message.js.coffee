@@ -8,53 +8,69 @@ window.Message = class Message
     @parameters.speed = 5 unless @parameters.speed
     @parameters.font = "American Typewriter" unless @parameters.font
     @parameters.fontWeight = "" unless @parameters.fontWeight
+    @parameters.fontSize = "16pt" unless @parameters.fontSize
+    @parameters.fade = true unless @parameters.fade == false
+    @parameters.maxWidth = 450 unless @parameters.maxWidth
+    @parameters.fontSizeNumber = parseInt(@parameters.fontSize[0..-3])
 
-  draw: (canvas, context, point, @parameters={}) ->
+  draw: (context, point, @parameters={}, @callback=null) ->
     @createDefaultParameters()
-    if canvas
+    if context
       # Draw Inital Text and Wait for 100-(delay*1000) millseconds before fading
-      context.clearRect(point.x(), point.y()-16, 300, 20)
-      context.font = "#{@parameters.fontWeight} 16pt #{@parameters.font}"
-      console.log(@parameters)
+      # context.clearRect(point.x(), point.y()-@parameters.fontSizeNumber, @parameters.maxWidth, 25)
+      context.font = "#{@parameters.fontWeight} #{@parameters.fontSize} #{@parameters.font}"
       context.fillStyle = "rgba(#{@parameters.color[0]}, #{@parameters.color[1]}, #{@parameters.color[2]}, 1.0)"
       if typeof @text == "string"
-        context.fillText(@text, point.x(), point.y(), 300)
+        context.fillText(@text, point.x(), point.y(), @parameters.maxWidth)
       else
         yOffset = 0
         for line in @text
-          context.fillText(line, point.x(), point.y()+yOffset, 300)
-          yOffset += 18
+          context.fillText(line, point.x(), point.y()+yOffset, @parameters.maxWidth)
+          yOffset += parseInt(@parameters.fontSize[0..-3])+4
 
       unless @parameters.speed == null
         @waitInterval = setInterval(=>
-          @fadeOut(canvas, context, point, @parameters.speed)
+          if @parameters.fade
+            @fadeOut(context, point, @parameters.speed)
+          else
+            callback(@callbackFunction) if @callbackFunction
+          clearInterval(@waitInterval) if @waitInterval
         , @parameters.delay*1000)
 
-  fadeOut: (canvas, context, point) ->
+  fadeOut: (context, point) ->
     context.save()
     alpha = 1.0
 
     fadeInterval = setInterval( =>
-      context.font = "#{@parameters.fontWeight} 16pt #{@parameters.font}"
+      context.font = "#{@parameters.fontWeight} #{@parameters.fontSize} #{@parameters.font}"
       if typeof @text == "string"
-        context.clearRect(point.x(), point.y()-16, 300, 20)
+        context.clearRect(point.x(), point.y()-@parameters.fontSizeNumber, @parameters.maxWidth, 25)
         context.fillStyle = "rgba(#{@parameters.color[0]}, #{@parameters.color[1]}, #{@parameters.color[2]}, #{alpha})"
-        context.fillText(@text, point.x(), point.y(), 300)
+        context.fillText(@text, point.x(), point.y(), @parameters.maxWidth)
       else
         yOffset = 0
-        context.clearRect(point.x(), point.y()-16, 300, 20*@text.length)
+        context.clearRect(point.x(), point.y()-@parameters.fontSizeNumber, @parameters.maxWidth, 25*@text.length)
         for line in @text
           context.fillStyle = "rgba(#{@parameters.color[0]}, #{@parameters.color[1]}, #{@parameters.color[2]}, #{alpha})"
-          context.fillText(line, point.x(), point.y()+yOffset, 300)
-          yOffset += 18
+          context.fillText(line, point.x(), point.y()+yOffset, @parameters.maxWidth)
+          yOffset += 20
       alpha = alpha - 0.05
       clearInterval(@waitInterval) if @waitInterval
 
       if alpha < 0
         if typeof @text == "string"
-          context.clearRect(point.x(), point.y()-16, 300, 20)
+          context.clearRect(point.x(), point.y()-@parameters.fontSizeNumber, @parameters.maxWidth, 25)
         else
-          context.clearRect(point.x(), point.y()-16, 300, 20*@text.length)
+          context.clearRect(point.x(), point.y()-@parameters.fontSizeNumber, @parameters.maxWidth, 25*@text.length)
         clearInterval(fadeInterval)
+        callback(@callbackFunction) if @callbackFunction
     , 100-(@parameters.speed*10))
     context.restore()
+
+  contains: (string) ->
+    if typeof @text == "string"
+      return @text.contains(string)
+    else
+      for line in @text
+        return true if line.contains(string)
+      return false

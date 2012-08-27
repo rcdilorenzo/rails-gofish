@@ -44,5 +44,5 @@ describe "Player", ->
       @player.askPlayerForRank(@otherPlayer, 4)
       @player.checkForBooks()
       expect(@otherPlayer.hand().length).toBe(0)
-      expect(@player.books.length).toBe(4)
+      expect(@player.score()).toBe(1)
       expect(@player.hand().length).toBe(1)
