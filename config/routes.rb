@@ -16,6 +16,7 @@ GoFish::Application.routes.draw do
   match 'endgame/:id' => 'games#endgame', :as => :game_end
 
   post '/drawing', :to => 'root#drawing'
+  post '/js-endgame', :to => 'games#endgame'
   # Keep in mind you can assign values other than :controller and :action
 
   # Sample of named route:

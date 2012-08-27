@@ -64,12 +64,18 @@ class GamesController < ApplicationController
   end
 
   def endgame
-    @game_result = GameResult.find(params[:id])
-    @game_result.game.players.each do |player|
-      @game_result.player_scores.build(:score => player.books.size, :player_index => @game_result.game.players.index(player))
+    if params[:id]
+      @game_result = GameResult.find(params[:id])
+      @game_result.game.players.each do |player|
+        @game_result.player_scores.build(:score => player.books.size, :player_index => @game_result.game.players.index(player))
+      end
+      @game_result.winner = @game_result.game.winner
+      render :end
+    else
+      @game_result = YAML::load(params[:game])
+      puts params[:game]
+      render :nothing
     end
-    @game_result.winner = @game_result.game.winner
-    render :end
   end
 
   def robot_request_card(current_game, current_player)

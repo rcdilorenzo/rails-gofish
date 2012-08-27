@@ -49,7 +49,7 @@ window.Drawing = class Drawing extends Drawable
       delete player.visualHand
     currentGame.winner = currentGame.winner()
     currentGame.currentPlayer = null
-    YAML.stringify(currentGame)
+    {game: YAML.stringify(currentGame), authenticity_token: $(@canvas).data('token')}
 
   save: ->
     postURL = $(@canvas).data('save')
@@ -129,7 +129,7 @@ window.Drawing = class Drawing extends Drawable
         @takePlayerTurn()
       @dealButton = null if @dealButton
       @draw(context)
-    , 3500)
+    , 100)
 
   _draw: (context) ->
     if @game.deck
