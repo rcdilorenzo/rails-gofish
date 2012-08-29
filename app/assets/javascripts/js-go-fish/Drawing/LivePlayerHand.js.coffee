@@ -22,6 +22,7 @@ window.LivePlayerHand = class LivePlayerHand extends Hand
       gradient = context.createLinearGradient(@x, @y, @x+@width, @y+@height)
       gradient.addColorStop(0,"#F8FFC8")
       gradient.addColorStop(1,"#D4DAAB")
+      @isSelected = false
     else
       gradient = context.createLinearGradient(@x, @y, @width, @height)
       gradient.addColorStop(0,"#D4D4D4")

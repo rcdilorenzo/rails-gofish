@@ -52,6 +52,12 @@ Array::maximumCardValue = ->
   index = array.indexOf(Math.max.apply(0, array))
   return this[index]
 
+Array::contains = (requestedElement) ->
+  for element in this
+    if element == requestedElement
+      return true
+  return false
+
 String::contains = (string) ->
   this.indexOf(string) > -1
 

@@ -15,7 +15,7 @@ class RootController < ApplicationController
     end
     @imgStrings.push("./assets/backs_blue.png")
     @imgStrings.push("./assets/backs_red.png")
-    render :graphics
+    # render :graphics
   end
 
   def drawing

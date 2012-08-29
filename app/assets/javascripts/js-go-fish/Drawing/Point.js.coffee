@@ -10,3 +10,12 @@ window.Point = class Point
 
   offsetByY: (yPoint) ->
     new Point(@_x, @_y + yPoint)
+
+  differenceTo: (point) ->
+    new Point(point.x() - @_x, point.y() - @_y)
+
+  isEqualTo: (point) ->
+    @_x == point.x() and @_y == point.y()
+
+  isGreaterThanOrEqualTo: (point) ->
+    @_x >= point.x() and @_y >= point.y()

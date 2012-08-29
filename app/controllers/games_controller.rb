@@ -1,21 +1,52 @@
 class GamesController < ApplicationController
   before_filter :authenticate_user!
 
-  def new
-    redirect_to game_url(:id => params[:id])
+  def create
+    render :check_for_javascript
   end
 
-  def create
-    @user = User.find(params[:id])
-    
+  def check_javascript
+    if params[:js] == "true"
+      redirect_to "/#{current_user.screen_name}/games/new"
+    else
+      @user = current_user
+      user_result = @user.results.build(:game => GoFishGame.new(@user.screen_name, "Rack", "Shack", "Benny"))
+      user_result.game.setup
+      user_result.game.current_player = user_result.game.players.first # live player will always be the first one
+      @user.save!
+      redirect_to "/create_ruby_game/#{user_result.id}"
+    end
+  end
+
+  def create_ruby_game
+    @user = current_user
     user_result = @user.results.build(:game => GoFishGame.new(@user.screen_name, "Rack", "Shack", "Benny"))
     user_result.game.setup
     user_result.game.current_player = user_result.game.players.first # live player will always be the first one
     @user.save!
-    redirect_to game_url(:id => user_result.id)
+    redirect_to game_show_url(:id => user_result.id)
   end
 
-  def show
+  def show_js_game
+    @name = params[:screen_name]
+    ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'Jack', 'Queen', 'King', 'Ace']
+    suits = ['Clubs', 'Diamonds', 'Hearts', 'Spades']
+    @imgStrings = []
+    for rank in ranks
+      for suit in suits
+        if rank.class == Fixnum
+          @imgStrings.push("./../../assets/#{suit[0].downcase}#{rank}.png")
+        else
+          @imgStrings.push("./../../assets/#{suit[0].downcase}#{rank[0].downcase}.png")
+        end
+      end
+    end
+    @imgStrings.push("./../../assets/backs_blue.png")
+    @imgStrings.push("./../../assets/backs_red.png")
+    render :javascriptGame
+  end
+
+  def show_ruby_game
     @game_result = GameResult.find(params[:id])
     @game = @game_result.game
     @game = YAML::load(@game) unless @game.class == GoFishGame
@@ -27,7 +58,6 @@ class GamesController < ApplicationController
     unless @turn
       @game.current_player.decision = robot_request_card(@game, @game.current_player)
       @game.current_player.take_turn
-
     end
     
     @game_result.game = @game
@@ -57,7 +87,7 @@ class GamesController < ApplicationController
       return
     else
       game.game_messages = []
-      redirect_to game_url(:id => params[:key])
+      redirect_to game_show_url(:id => params[:key])
       game.game_messages_title = []
       return
     end

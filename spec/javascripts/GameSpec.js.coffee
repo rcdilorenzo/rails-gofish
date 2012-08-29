@@ -14,7 +14,7 @@ describe "GoFishGame", ->
       rank: firstPlayer.cards[0].rank()
     }
     firstPlayer.takeTurn()
-    expect(firstPlayer.hand().length).toBe(6)
+    expect(firstPlayer.hand().length >= 6).toBe(true)
 
   describe "deal", ->
     it "deals each player 5 cards", ->

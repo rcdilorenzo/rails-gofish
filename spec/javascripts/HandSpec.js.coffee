@@ -1,23 +1,45 @@
 describe "Hand", ->
   beforeEach ->
-    cards = [new PlayingCard(4, "Spades"), new PlayingCard(5, "Hearts"), new PlayingCard(4, "Diamonds"), new PlayingCard(4, "Clubs")]
-    @hand = new LivePlayerHand("Christian", cards, 330, 600)
+    @myPlayer = new Player("John")
+    @myPlayer.cards = [new PlayingCard(4, "Spades"), new PlayingCard(5, "Hearts"), new PlayingCard(4, "Diamonds"), new PlayingCard(4, "Clubs"), new PlayingCard("Jack", "Diamonds")]
 
-  it "contains a certain point", ->
-    expect(@hand.contains(new Point(400, 630))).toBe(true)
+    spyOn(Hand.prototype, 'getImage').andReturn('Test Card Object')
+    @hand = new Hand(@myPlayer, 330, 600)
+
+  it "inherits from Drawable", ->
+    # check if a parent's method exists
+    expect(@hand._saveAndSetProperties).not.toBe(null)
+
+  describe "background", ->
+    it "creates a rounded rectangle background", ->
+      @hand.createBackground()
+      expect(@hand.background instanceof RoundedRectangle).toBe(true)
     
+    it "calculates correct width and height (horizontal orientation)", ->
+      @hand.createBackground()
+      expect(@hand.width).toBe(351)
+      expect(@hand.height).toBe(166)
 
-#   it "creates a set of card images with front-facing cards", ->
-#     expect(@hand.cardImages[0].src).toMatch(/s4.png/)
+      @myPlayer.cards.push(new PlayingCard("Queen", "Spades"))
+      @hand.createBackground()
+      expect(@hand.width).toBe(371)
+      expect(@hand.height).toBe(166)
 
-#   it "creates back-facing cards when specified", ->
-#     backFacingHand = new Hand([new PlayingCard(4, "Spades"),
-#                         new PlayingCard(5, "Hearts"),
-#                         new PlayingCard(4, "Diamonds"),
-#                         new PlayingCard(4, "Clubs")], no)
-#     expect(backFacingHand.cardImages[0].src).toMatch(/backs_blue.png/)
-#     backFacingHand = new Hand([new PlayingCard(4, "Spades"),
-#                         new PlayingCard(5, "Hearts"),
-#                         new PlayingCard(4, "Diamonds"),
-#                         new PlayingCard(4, "Clubs")], no, 'red')
-#     expect(backFacingHand.cardImages[0].src).toMatch(/backs_red.png/)
+    it "calculates correct width and height (vertical orientation)", ->
+      @hand = new Hand(@myPlayer, 100, 100, 'vertical')
+      @hand.createBackground()
+      expect(@hand.width).toBe(111)
+      expect(@hand.height).toBe(391)
+
+      @myPlayer.cards.push(new PlayingCard("Queen", "Spades"))
+      @hand.createBackground()
+      expect(@hand.width).toBe(111)
+      expect(@hand.height).toBe(411)
+
+  describe "cards", ->
+    it "contains card images", ->
+      expect(@hand.cardImages.length).toBe(5)
+
+    it "creates the correct offset for each card drawn", ->
+      @hand.createBackground()
+      expect(@hand.cardOffset).toBe(60)

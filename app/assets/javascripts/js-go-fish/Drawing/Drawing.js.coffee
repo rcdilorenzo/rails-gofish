@@ -9,10 +9,10 @@ $ ->
 
 window.Drawing = class Drawing extends Drawable
   constructor: (@canvas) ->
-    @game = new GoFishGame("Christian", "John", "Jay", "Ken")
+    @game = new GoFishGame($(@canvas).attr('data-screenname'), "John", "Jay", "Ken")
     @hands = []
     @dropTargets = []
-    context = @canvas.getContext('2d')
+    context = @canvas.getContext('2d') if @canvas
     @dealButton = new RoundedRectangle(430, 300, 100, 50, 10, {lineWidth: 0})
     
     @initializeMouseObservers() if @canvas
@@ -41,19 +41,23 @@ window.Drawing = class Drawing extends Drawable
     @paint()
     @takePlayerTurn()
 
-  toJSON: ->
-    currentGame = jQuery.extend(true, {}, @game)
-    for player in currentGame.players
-      delete player.game
-      delete player.decision
-      delete player.visualHand
-    currentGame.winner = currentGame.winner()
-    currentGame.currentPlayer = null
-    {game: YAML.stringify(currentGame), authenticity_token: $(@canvas).data('token')}
+  toYAML: ->
+    if @game.isEnded()
+      # Make Copy of Game
+      currentGame = jQuery.extend(true, {}, @game)
+      for player in currentGame.players
+        delete player.game
+        delete player.decision
+        delete player.visualHand
+      currentGame.winner = currentGame.winner()
+      currentGame.currentPlayer = null
+      return YAML.stringify(currentGame)
+    else
+      return "The game hasn't ended"
 
   save: ->
     postURL = $(@canvas).data('save')
-    $.post(postURL, @toJSON())
+    $.post(postURL, {game: @toYAML(), authenticity_token: $(@canvas).data('token')})
 
 
   # ------- Game Events --------
@@ -78,7 +82,7 @@ window.Drawing = class Drawing extends Drawable
         # LIVE PLAYER HAS TAKEN TURN
         @game.players[0].decision = {player: target, rank: @selectedCard.getAttribute("data-rank")}
         @game.currentPlayer.takeTurn()
-        context.clearRect(0, 0, $(@canvas).width(), $(@canvas).height())
+        @clearCanvas(context)
         @game.players[0].visualHand.generateCreationPointsArray()
         @draw(context)
         @paint()
@@ -93,22 +97,25 @@ window.Drawing = class Drawing extends Drawable
     return {player: chosenPlayer, rank: chosenRank}
 
   endGame: ->
-    @canvas.getContext('2d').clearRect(0, 0, $(@canvas).width(), $(@canvas).height())
+    @clearCanvas()
     clearInterval(@gameLoopInterval)
     @gameLoopInterval = null
     if @game.winner() instanceof Array
       endMessages = ["Tie!"]
       for winner in @game.winner()
         endMessages.push("#{winner.name}: #{winner.score()} books!")
-      endMessage = new Message(endMessages)
+      @endMessage = new Message(endMessages)
     else
-      endMessage = new Message("#{@game.winner().name} wins with #{@game.winner().score()} books!")
-    endMessage.draw(@canvas.getContext('2d'), new Point(90, 350), {fontSize: "20pt", fontWeight: "bold", fade: false, maxWidth: 700}, @save())
+      @endMessage = new Message("#{@game.winner().name} wins with #{@game.winner().score()} books!")
+    @endMessage.draw(@canvas.getContext('2d'), new Point(90, 350), {fontSize: "20pt", fontWeight: "bold", fade: false, maxWidth: 700}, @save()) if @canvas
 
 
   # ------- Drawing ---------
   paint: (context = @canvas.getContext('2d')) ->
-    context.clearRect(0, 0, $(@canvas).width(), $(@canvas).height())
+    @clearCanvas(context)
+    # Regenerate image locations for live player
+    @game.players[0].visualHand.generateCreationPointsArray()
+
     @draw(context)
 
     @gameLoopInterval = setInterval( =>
@@ -116,20 +123,24 @@ window.Drawing = class Drawing extends Drawable
         console.log("Game Ended")
         return @endGame()
 
-      context.clearRect(0, 0, $(@canvas).width(), $(@canvas).height())
+      @clearCanvas(context)
       for target in @dropTargets
         target.visualHand.isSelected = false
-      @game.currentPlayer.visualHand.isSelected = true unless @game.currentPlayer == @game.players[0]
+      @game.currentPlayer.visualHand.isSelected = true
+      @game.currentPlayer.decision = {}
 
-      if @game.gameMessages.length > 0
-        gameMessage = new Message(@game.gameMessages)
-        gameMessage.draw(context, new Point(310, 350), {delay:2}, @takePlayerTurn())
-        @game.gameMessages = [] if gameMessage.contains(@game.players[0].name) and gameMessage.contains("fish")
-      else
-        @takePlayerTurn()
+      @displayGameMessages(context, @takePlayerTurn())
       @dealButton = null if @dealButton
       @draw(context)
-    , 100)
+    , 3500)
+
+  displayGameMessages: (context, callback) ->
+    if @game.gameMessages.length > 0
+      gameMessage = new Message(@game.gameMessages)
+      gameMessage.draw(context, new Point(310, 350), {delay:2}, callback) if context
+      @game.gameMessages = [] if gameMessage.contains(@game.players[0].name) and gameMessage.contains("fish")
+    return gameMessage
+
 
   _draw: (context) ->
     if @game.deck
@@ -145,10 +156,15 @@ window.Drawing = class Drawing extends Drawable
     @dealButton.drawWithText(context, "Deal!") if @dealButton
 
   revertToOldPosition: (card) ->
-    context = @canvas.getContext('2d')
-    context.clearRect(0, 0, $(@canvas).width(), $(@canvas).height())
+    context = @canvas.getContext('2d') if @canvas
+    @clearCanvas(context)
     @game.players[0].visualHand.generateCreationPointsArray()
     @draw(context)
+
+  clearCanvas: ->
+    if @canvas
+      context = @canvas.getContext('2d')
+      context.clearRect(0, 0, $(@canvas).width(), $(@canvas).height()) if @canvas
 
 
   # ------- Mouse Events ---------
@@ -162,8 +178,8 @@ window.Drawing = class Drawing extends Drawable
 
   mouseUp: (point) ->
     if @game.currentPlayer == @game.players[0]
-      context = @canvas.getContext('2d')
-      context.clearRect(0, 0, $(@canvas).width(), $(@canvas).height())
+      context = @canvas.getContext('2d') if @canvas
+      @clearCanvas(context)
       @draw(context)
     @livePlayerTurn(context, point)
     if @selectedCard
@@ -177,18 +193,18 @@ window.Drawing = class Drawing extends Drawable
       @selectedCard = null
   
   mouseMove: (point) ->
-    if @selectedCard and @canvas
+    if @selectedCard
       for target in @dropTargets
         if target.visualHand.contains(point) and @selectedCard
           target.visualHand.isSelected = true
         else
           target.visualHand.isSelected = false
-        target.visualHand.draw(@canvas.getContext('2d'))
+        target.visualHand.draw(@canvas.getContext('2d')) if @canvas
 
       # @selectedCard.x = point.x() - @mouseOffsetX
       # @selectedCard.y = point.y() - @mouseOffsetY
-      context = @canvas.getContext('2d')
-      context.clearRect(0, 0, $(@canvas).width(), $(@canvas).height())
+      context = @canvas.getContext('2d') if @canvas
+      @clearCanvas(context)
       @game.players[0].visualHand.creationPoints[@selectedCard.src] = new Point(point.x() - @mouseOffsetX, point.y() - @mouseOffsetY)
       @draw(context)
 

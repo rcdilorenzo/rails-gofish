@@ -1,9 +1,0 @@
-%noscript
-  %meta{"http-equiv" => "refresh", :content => "0;URL=NOSCRIPT.HTML"}
-
-#myDrawingDiv
-  %canvas#drawing{:width => "940px", :height => "800px", :data => {save: '/js-endgame', :token => "#{form_authenticity_token}"}, :style => "position:absolute; z-index: 1; margin-top: -20px;"}
-  - ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'Jack', 'Queen', 'King', 'Ace']
-  - @imgStrings.each do |imgString|
-    %img{"src" => "#{imgString}", "style" => "display:none;", :width => "71px", :height => "96px", "id" => "#{imgString[9..-5]}", "data-rank" => "#{ranks[@imgStrings.index(imgString)/4]}"}
-  %canvas#goFish{:width => "500px", :height => "200px", :style => "margin-top: 350px; margin-left: 200px; position: absolute; z-index: 2; display: none;"}

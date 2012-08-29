@@ -11,9 +11,13 @@ GoFish::Application.routes.draw do
 
   resources :users, :only => [:show, :create]
 
+  resources :games, :only => [:create]
   match 'games/play' => 'games#play', :as => :play
-  resources :games, :except => [:edit, :index]
+  match 'games/:id' => 'games#show_ruby_game', :as => :game_show
+  match ':screen_name/games/new' => 'games#show_js_game'
   match 'endgame/:id' => 'games#endgame', :as => :game_end
+  match '/js/:js' => 'games#check_javascript'
+  match 'create_ruby_game/:id' => 'games#create_ruby_game'
 
   post '/drawing', :to => 'root#drawing'
   post '/js-endgame', :to => 'games#endgame'

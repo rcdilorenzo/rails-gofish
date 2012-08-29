@@ -14,7 +14,7 @@ window.Hand = class Hand extends Drawable
     for card in @player.cards
       # check for undefined for testing only
       @cardImages.push(@getImage(card)) unless @getImage(card) == undefined
-
+      
   generateCreationPointsArray: ->
     @creationPoints = []
     creationPoint = new Point(@x+20, @y+50) if @orientation == 'horizontal'

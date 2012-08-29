@@ -53,6 +53,10 @@
             <th><%= @games_played %></th>
           </tbody>
         </table>
+        <%= form_tag games_path do %>
+          <%= hidden_field_tag :id, @user.id %>
+          <%= submit_tag "Create Game", :class => "btn btn-primary" %>
+        <% end %>
       <% end %>
     </div>
     <div class="tab-pane fade" id="games">
