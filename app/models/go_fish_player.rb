@@ -1,6 +1,6 @@
 class GoFishPlayer
-  attr_reader :name, :cards, :books
-  attr_accessor :decision
+  attr_reader :name, :cards
+  attr_accessor :decision, :books
 
   def initialize(name, game)
     @name = name

@@ -12,11 +12,10 @@ window.FishDrawing = class FishDrawing extends Drawable
   constructor: (@canvas) ->
     context = @canvas.getContext('2d') if @canvas
     @fish = []
-    numberOfFish = window.innerWidth/10
+    numberOfFish = window.innerWidth/8
     for count in [0..numberOfFish]
       newPoint = new Point(Math.floor(Math.random() * window.innerWidth-100), Math.floor(Math.random() * window.innerHeight-100))
       @fish.push(new Fish(context, newPoint))
-    console.log(@fish)
 
   # generateXCoordinate: ->
   #   if Math.floor(Math.random()*2) == 0

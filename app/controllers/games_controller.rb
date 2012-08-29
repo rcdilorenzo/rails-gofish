@@ -102,10 +102,46 @@ class GamesController < ApplicationController
       @game_result.winner = @game_result.game.winner
       render :end
     else
-      @game_result = YAML::load(params[:game])
-      puts params[:game]
-      render :nothing
+      
+      @game_result = current_user.results.build(:game => parse_YAML_JS_game(params[:game]))
+      puts @game_result
+
+      players.each do |player|
+        player = @game_result.game["players"][count-1]
+        @game_result.player_scores.build(:score => player["books"].size/4, :player_index => @game_result.game.players.index(player))
+      end
+      @game_result.winner = @game_result.game["winner"]
+      render :nothing => true
     end
+  end
+
+  def parse_YAML_JS_game(game_in_YAML)
+    game_to_be_parsed = YAML::load(YAML::load(game_in_YAML))
+    parsedGame = GoFishGame.new(game_to_be_parsed["players"]["0"]["name"],
+                                game_to_be_parsed["players"]["1"]["name"],
+                                game_to_be_parsed["players"]["2"]["name"],
+                                game_to_be_parsed["players"]["3"]["name"])
+    parsedGame.deck_of_cards.cards = game_to_be_parsed["deck"]["cards"]
+    4.times do |count|
+      # Parse Cards
+      player_cards = []
+      game_to_be_parsed["players"]["#{count}"]["cards"][0..-2].each do |card|
+        player_cards << Card.new(card["_rank"], card["_suit"])
+      end
+      parsedGame.players[count].cards = player_cards
+
+      # Parse Books
+      player_books = []
+      (game_to_be_parsed["players"]["#{count}"]["books"].size/4).times do |book_count|
+        book = []
+        game_to_be_parsed["players"]["#{count}"]["books"][(0+(4*book_count))..(3+(4*book_count))].each do |card|
+          book << Card.new(card["_rank"], card["_suit"])
+        end
+        player_books << book
+      end
+      parsedGame.players[count].books = player_books
+    end
+    return parsedGame
   end
 
   def robot_request_card(current_game, current_player)

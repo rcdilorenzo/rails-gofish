@@ -51,6 +51,7 @@ window.Drawing = class Drawing extends Drawable
         delete player.visualHand
       currentGame.winner = currentGame.winner()
       currentGame.currentPlayer = null
+      console.log(YAML.stringify(currentGame))
       return YAML.stringify(currentGame)
     else
       return "The game hasn't ended"
@@ -132,7 +133,7 @@ window.Drawing = class Drawing extends Drawable
       @displayGameMessages(context, @takePlayerTurn())
       @dealButton = null if @dealButton
       @draw(context)
-    , 3500)
+    , 100)
 
   displayGameMessages: (context, callback) ->
     if @game.gameMessages.length > 0
