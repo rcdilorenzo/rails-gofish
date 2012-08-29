@@ -58,7 +58,7 @@ window.Drawing = class Drawing extends Drawable
 
   save: ->
     postURL = $(@canvas).data('save')
-    $.post(postURL, {game: @toYAML(), authenticity_token: $(@canvas).data('token')})
+    $.post(postURL, {game: @toYAML(), authenticity_token: $(@canvas).data('token')}, ((data) => alert("Game Saved.")))
 
 
   # ------- Game Events --------

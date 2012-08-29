@@ -20,7 +20,7 @@ GoFish::Application.routes.draw do
   match 'create_ruby_game/:id' => 'games#create_ruby_game'
 
   post '/drawing', :to => 'root#drawing'
-  post '/js-endgame', :to => 'games#endgame'
+  match '/js-endgame', :to => 'games#endgame'
   # Keep in mind you can assign values other than :controller and :action
 
   # Sample of named route:

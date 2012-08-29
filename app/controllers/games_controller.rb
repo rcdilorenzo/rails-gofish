@@ -94,29 +94,19 @@ class GamesController < ApplicationController
   end
 
   def endgame
-    if params[:id]
-      @game_result = GameResult.find(params[:id])
-      @game_result.game.players.each do |player|
-        @game_result.player_scores.build(:score => player.books.size, :player_index => @game_result.game.players.index(player))
-      end
-      @game_result.winner = @game_result.game.winner
-      render :end
-    else
-      
-      @game_result = current_user.results.build(:game => parse_YAML_JS_game(params[:game]))
-      puts @game_result
+    @game_result = GameResult.find(params[:id]) if params[:id]
+    @game_result = current_user.results.build(:game => parse_YAML_JS_game(params[:game])) if params[:game]
 
-      players.each do |player|
-        player = @game_result.game["players"][count-1]
-        @game_result.player_scores.build(:score => player["books"].size/4, :player_index => @game_result.game.players.index(player))
-      end
-      @game_result.winner = @game_result.game["winner"]
-      render :nothing => true
+    @game_result.game.players.each do |player|
+      @game_result.player_scores.build(:score => player.books.size, :player_index => @game_result.game.players.index(player))
     end
+    @game_result.winner = @game_result.game.winner
+    @game_result.save!
+    render :end
   end
 
   def parse_YAML_JS_game(game_in_YAML)
-    game_to_be_parsed = YAML::load(YAML::load(game_in_YAML))
+    game_to_be_parsed = YAML::load(game_in_YAML)
     parsedGame = GoFishGame.new(game_to_be_parsed["players"]["0"]["name"],
                                 game_to_be_parsed["players"]["1"]["name"],
                                 game_to_be_parsed["players"]["2"]["name"],

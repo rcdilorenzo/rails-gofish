@@ -39,16 +39,16 @@ window.FishDrawing = class FishDrawing extends Drawable
         fish.originalPoint.offsetByX(offset)
         fish.draw()
 
-      textPoint = new Point(window.innerWidth/2-194, window.innerHeight/2.5)
+      textPoint = new Point(window.innerWidth/2-window.innerWidth/5, window.innerHeight/2.5)
       gradient = context.createLinearGradient(textPoint.x(), textPoint.y()-60, textPoint.x(), textPoint.y()+20)
       gradient.addColorStop(0, "#333333")
       gradient.addColorStop(1, "#1E1E1E")
       # context.lineWidth = 2
       # context.strokeStyle = "#1E1E1E"
       context.fillStyle = gradient
-      context.font = "bold 80pt Century Gothic"
+      context.font = "bold #{window.innerWidth/10}px Century Gothic"
       context.fillText("Go Fish", textPoint.x(), textPoint.y())
       # context.strokeText("Go Fish", textPoint.x(), textPoint.y())
 
       totalOffset = totalOffset + offset
-    , 150)
+    , 120)
