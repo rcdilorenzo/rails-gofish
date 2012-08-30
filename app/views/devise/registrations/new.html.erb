@@ -1,4 +1,4 @@
-<div id="new-user"><h1 style="padding-botom:35px;">Sign Up</h1>
+<div id="new-user" style="max-width:350px;"><h1 style="padding-botom:35px;">Sign Up</h1>
   <% if flash.alert =~ /fields.+required/i %>
     <div class="alert alert-error fade in">
       <button type="button" class="close" data-dismiss="alert" href="#">×</button>
@@ -17,19 +17,19 @@
     <h3>User Information</h3>
 
     <h4 style="margin-right: 25px;">First Name: </h4>
-    <%= f.text_field :first_name, :style => "height:22px;" %>
+    <%= f.text_field :first_name, :style => "height:22px; width:170px;" %>
 
     <h4 style="margin-right: 25px;">Last Name: </h4>
-    <%= f.text_field :last_name, :style => "height:22px;" %>
+    <%= f.text_field :last_name, :style => "height:22px; width:170px;" %>
 
     <h4 style="margin-right: 30px;">Password: </h4>
-    <%= f.password_field :password, :style => "height:22px; width:180px;" %>
+    <%= f.password_field :password, :style => "height:22px; width:170px;" %>
 
     <h4 style="margin-right: 44px;">Confirm: </h4>
-    <%= f.password_field :password_confirmation, :style => "height:22px; width:180px;" %>
+    <%= f.password_field :password_confirmation, :style => "height:22px; width:170px;" %>
 
     <h4 style="margin-right: 62px;">Email: </h4>
-    <%= f.text_field :email, :style => "height:22px; width:180px;" %>
+    <%= f.text_field :email, :style => "height:22px; width:170px;" %>
 
     <h4 style="margin-right: 7px;">Screen Name: </h4>
     <%= f.text_field :screen_name, :style => "height:22px; width:121px;", :maxLength => "20" %>
@@ -40,7 +40,7 @@
       <%= a.text_field :street, :style => "height:22px; width:265px;" %><br />
 
       <h4 style="margin-right: 19px;">City: </h4>
-      <%= a.text_field :city, :style => "height:22px; width:180px;" %><br />
+      <%= a.text_field :city, :style => "height:22px; width:170px;" %><br />
 
       <h4 style="margin-right: 10px;">State: </h4>
       <%= a.text_field :state, :style => "height:22px; width:50px;" %><br />

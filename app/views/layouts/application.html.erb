@@ -27,20 +27,15 @@
   <body>
     <%= yield :window %>
     <div class="navbar navbar-fixed-top navbar-inverse">
-      <div class="navbar-inner">
+      <div class="navbar-inner" style="padding: 0px 0px 0px 0px;">
         <div class="container">
-          <button class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="brand" href="/">Go Fish</a>
           <div class="nav-collapse">
-            <ul class="nav">
-              <li <%= "class=active" if request.url[-1] == "/" %>><a href="/">Home</a></li>
-            </ul>
+            <a class="brand" href="/">Go Fish</a>
           </div>
-          <div class="nav-collapse" style="height:auto;">
+          <div class="nav-collapse" style="height:auto; padding-left:20px">
+            <ul class="nav">
+              <li><a class="hidden-desktop" style="padding-left: 20px;" href="/">Home</a></li>
+            </ul>
             <ul class="nav pull-right">
               <% if user_signed_in? %>
                 <li class="divider-vertical"></li>

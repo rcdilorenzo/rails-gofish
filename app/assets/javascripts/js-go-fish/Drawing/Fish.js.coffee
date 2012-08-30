@@ -3,6 +3,7 @@ window.Fish = class Fish
     @colorStops = @generateColorGradient()
     @size = Math.floor(Math.random()*100)/100 + 0.2
     @size = 0.8 if @size > 0.8
+    @size -= 0.3 if window.innerWidth < 800
   hover: ->
     offset = 5
     totalOffset = 5
@@ -16,15 +17,15 @@ window.Fish = class Fish
 
   generateColorGradient: ->
     if Math.floor(Math.random()*2) == 0
-      return ["#79BBFF", "#378DE5"]
+      return ["#79BBFF", "#378DE5", "#378DE5"]
     else
-      return ["#F9BC28", "#FAA428"]
+      return ["#F9BC28", "#FAA428", "#EA9823"]
     
   draw: ->
     context = @fishContext
     context.save()
-    x = @originalPoint.x() + Math.floor(Math.random() * 4) - 2
-    y = @originalPoint.y() + Math.floor(Math.random() * 4) - 2
+    x = @originalPoint.x() + Math.floor(Math.random() * 10) - 5
+    y = @originalPoint.y() + Math.floor(Math.random() * 10) - 5
     # context.clearRect(x-(10*@size), y-(10*@size), (170*@size), (65*@size))
 
     context.beginPath()
@@ -40,7 +41,7 @@ window.Fish = class Fish
     context.fillStyle = gradient
     context.fill()
     context.lineWidth = @size*5
-    context.strokeStyle = @colorStops[1]
+    context.strokeStyle = @colorStops[2]
     context.stroke()
 
     context.restore()

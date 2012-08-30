@@ -7,12 +7,21 @@ $ ->
     canvas.height = canvas.clientHeight
     drawing = new FishDrawing(canvas)
     drawing.paint()
+    $(window).resize( =>
+      clearInterval(drawing.drawInterval)
+      drawing = null
+      context.clearRect(0, 0, $(@canvas).width(), $(@canvas).height()) if @canvas
+      drawing = new FishDrawing(canvas)
+      drawing.paint()
+     )
+
 
 window.FishDrawing = class FishDrawing extends Drawable
   constructor: (@canvas) ->
     context = @canvas.getContext('2d') if @canvas
     @fish = []
     numberOfFish = window.innerWidth/8
+    numberOfFish = window.innerWidth/4 if window.innerWidth < 800
     for count in [0..numberOfFish]
       newPoint = new Point(Math.floor(Math.random() * window.innerWidth-100), Math.floor(Math.random() * window.innerHeight-100))
       @fish.push(new Fish(context, newPoint))
@@ -29,7 +38,7 @@ window.FishDrawing = class FishDrawing extends Drawable
     totalOffset = 5
     goFishText = new Message("Go Fish")
 
-    drawInterval = setInterval( =>
+    @drawInterval = setInterval( =>
       @canvas.width = @canvas.clientWidth
       @canvas.height = @canvas.clientHeight
       context.clearRect(0, 0, $(@canvas).width(), $(@canvas).height()) if @canvas
@@ -51,4 +60,4 @@ window.FishDrawing = class FishDrawing extends Drawable
       # context.strokeText("Go Fish", textPoint.x(), textPoint.y())
 
       totalOffset = totalOffset + offset
-    , 120)
+    , 200)
