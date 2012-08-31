@@ -3,6 +3,7 @@
 $ ->
   canvas = document.getElementById('goFish')
   if canvas
+    $('body').css('background', "url(../img/water-texture-#{Math.floor(Math.random() * 2)+1}.jpg) repeat")
     canvas.width = canvas.clientWidth
     canvas.height = canvas.clientHeight
     drawing = new FishDrawing(canvas)
@@ -14,6 +15,14 @@ $ ->
       drawing = new FishDrawing(canvas)
       drawing.paint()
      )
+
+  backgroundPosition = 0
+  movingBackground = setInterval( =>
+    $('body').animate({
+      'background-position': "#{backgroundPosition}px 0"
+    }, 9)
+    backgroundPosition -= 1
+  , 50)
 
 
 window.FishDrawing = class FishDrawing extends Drawable
@@ -52,7 +61,7 @@ window.FishDrawing = class FishDrawing extends Drawable
       gradient = context.createLinearGradient(textPoint.x(), textPoint.y()-80, textPoint.x(), textPoint.y()+10)
       gradient.addColorStop(0, "#3962A6")
       gradient.addColorStop(1, "#30538C")
-      context.lineWidth = window.innerWidth/900 
+      context.lineWidth = window.innerWidth/900
       context.strokeStyle = "#213961"
       context.fillStyle = gradient
       context.font = "bold #{window.innerWidth/10}px Century Gothic"

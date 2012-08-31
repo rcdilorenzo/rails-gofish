@@ -1,5 +1,6 @@
 body {
   background:url(../img/water-texture.jpg) repeat;
+  background-position:0px 0;
   /* background-attachment:fixed; */
   padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
 }
