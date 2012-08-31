@@ -133,7 +133,7 @@ window.Drawing = class Drawing extends Drawable
       @displayGameMessages(context, @takePlayerTurn())
       @dealButton = null if @dealButton
       @draw(context)
-    , 100)
+    , 3500)
 
   displayGameMessages: (context, callback) ->
     if @game.gameMessages.length > 0
