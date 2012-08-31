@@ -1,5 +1,5 @@
 body {
-  background:url(../img/background.jpeg) repeat;
+  background:url(../img/water-texture.jpg) repeat;
   /* background-attachment:fixed; */
   padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
 }
@@ -32,7 +32,7 @@ form h4 {
 }
 
 #board {
-  background-color:rgba(0,0,0,0.2);
+  background-color:rgba(256,256,256,0.4);
   border-radius: 10px;
   min-height:300px;
   min-width:200px;
@@ -41,12 +41,15 @@ form h4 {
   padding:25px;
 }
 
-#board-nav ul li a:hover {
-  background-image:rgba(0,0,0,0.2);
-}
-
-#board-nav ul li.active a {
-  background-image:rgba(0,0,0,0.2);
+#game-board {
+  background-color:rgba(256,256,256,0.4);
+  border-radius: 10px;
+  min-height:300px;
+  min-width:200px;
+  max-width: 400px;
+  margin:0 auto;
+  margin-top:30px;
+  padding:25px;
 }
 
 #player-left {

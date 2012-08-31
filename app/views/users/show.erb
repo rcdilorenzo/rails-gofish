@@ -10,14 +10,13 @@
   </script>
 <% end %>
 
-<div id="board">
+<div id="board" style="max-width:600px;">
   <div id="board-nav">
 
     <ul class="nav nav-tabs" id="innerNav">
       <li class="active">
         <a href="#user" data-toggle="tab"><span class="icon-user"></span> <%= current_user.screen_name[0].upcase + current_user.screen_name[1..-1] %></a>
       </li>
-      <li><a href="#games" data-toggle="tab"><span class="icon-list-alt"></span> Games</a></li>
       <li><a href="#profile" data-toggle="tab"><span class="icon-edit"></span> Profile</a></li>
     </ul>
 
@@ -32,11 +31,11 @@
         <%= @user["first_name"] %>, you don't have any stats. Once you play a game, your high score will show up on this page.
         </p>
       <% else %>
-        <h1>Welcome back,  <%= @user["first_name"] %></h3>
+        <h1 style="color:#8A200D;">Welcome back to Go Fish!</h3>
         <br />
         <table class="table">
           <thead>
-            <tr>
+            <tr style="color: #8A200D">
               <th>Name</th>
               <th>Wins</th>
               <th>Losses</th>
@@ -56,12 +55,6 @@
           <%= hidden_field_tag :id, @user.id %>
           <%= submit_tag "Create Game", :class => "btn btn-primary" %>
         <% end %>
-      <% end %>
-    </div>
-    <div class="tab-pane fade" id="games">
-      <%= form_tag games_path do %>
-        <%= hidden_field_tag :id, @user.id %>
-        <%= submit_tag "Create Game", :class => "btn btn-primary" %>
       <% end %>
     </div>
     <div class="tab-pane fade" id="profile">

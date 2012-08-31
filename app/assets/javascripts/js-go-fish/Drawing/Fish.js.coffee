@@ -17,7 +17,7 @@ window.Fish = class Fish
 
   generateColorGradient: ->
     if Math.floor(Math.random()*2) == 0
-      return ["#79BBFF", "#378DE5", "#378DE5"]
+      return ["#F23917", "#E83917", "#BD2C12"]
     else
       return ["#F9BC28", "#FAA428", "#EA9823"]
     
