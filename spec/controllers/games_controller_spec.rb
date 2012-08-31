@@ -4,7 +4,10 @@ describe GamesController do
   it "should parse a YAML javascript game to ruby" do
     controller = GamesController.new
     game_YAML = File.open("./spec/controllers/example_javascript_game.yaml").read
-    parsedGame = controller.parse_YAML_JS_game(game_YAML)
+
+    # Why do I have to parse the test twice but only once in the app?
+    parsedGame = controller.parse_YAML_JS_game(YAML::load(game_YAML))
+
     parsedGame.should be_kind_of GoFishGame
     parsedGame.deck_of_cards.cards.should eq([])
     # Check Cards
