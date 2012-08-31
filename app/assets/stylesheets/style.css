@@ -32,7 +32,7 @@ form h4 {
 }
 
 #board {
-  background-color:rgba(256,256,256,0.4);
+  background-color:rgba(255,255,255,0.4);
   border-radius: 10px;
   min-height:300px;
   min-width:200px;
@@ -42,7 +42,7 @@ form h4 {
 }
 
 #game-board {
-  background-color:rgba(256,256,256,0.4);
+  background-color:rgba(255,255,255,0.4);
   border-radius: 10px;
   min-height:300px;
   min-width:200px;
