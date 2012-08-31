@@ -30,6 +30,10 @@
         <p>
         <%= @user["first_name"] %>, you don't have any stats. Once you play a game, your high score will show up on this page.
         </p>
+        <%= form_tag games_path do %>
+          <%= hidden_field_tag :id, @user.id %>
+          <%= submit_tag "Create Game", :class => "btn btn-primary" %>
+        <% end %>
       <% else %>
         <h1 style="color:#8A200D;">Welcome back to Go Fish!</h3>
         <br />
