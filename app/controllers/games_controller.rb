@@ -7,7 +7,7 @@ class GamesController < ApplicationController
 
   def check_javascript
     if params[:js] == "true"
-      redirect_to "/#{current_user.screen_name}/games/new"
+      redirect_to "/#{current_user.screen_name.downcase.gsub(/\s+/,'-').gsub(/[^a-z0-9_-]/,'').squeeze('-')}/games/new"
     else
       @user = current_user
       user_result = @user.results.build(:game => GoFishGame.new(@user.screen_name, "Rack", "Shack", "Benny"))
@@ -28,7 +28,7 @@ class GamesController < ApplicationController
   end
 
   def show_js_game
-    @name = params[:screen_name]
+    @name = current_user.screen_name
     ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'Jack', 'Queen', 'King', 'Ace']
     suits = ['Clubs', 'Diamonds', 'Hearts', 'Spades']
     @imgStrings = []
